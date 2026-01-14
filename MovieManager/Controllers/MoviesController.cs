@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MovieManager.Controllers.Commands.AddMovie;
+using MovieManager.Controllers.Commands.DeleteMovie;
+using MovieManager.Controllers.Commands.UpdateMovie;
+using MovieManager.Controllers.Queries.GetAllMovies;
+using MovieManager.Controllers.Queries.GetMovieById;
 using MovieManager.Data;
 using MovieManager.Models.Dtos;
 using MovieManager.Models.Entities;
 using MovieManager.Services;
+using System.Threading.Tasks;
 
 namespace MovieManager.Controllers
 {
@@ -12,37 +19,34 @@ namespace MovieManager.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        private readonly MovieManagerDbContext dbContext;
-        private readonly EmailSenderService emailSender;
+        private readonly IEmailSenderService emailSender;
+        private readonly ISender sender;
 
-        public MoviesController(MovieManagerDbContext dbContext, EmailSenderService emailSender)
+        public MoviesController(ISender sender, IEmailSenderService emailSender)
         {
-            this.dbContext = dbContext;
             this.emailSender = emailSender;
+            this.sender = sender;
         }
 
         //gets a list of all movies
         [HttpGet]
-        public IActionResult GetAllMovies()
+        public async Task<IActionResult> GetAllMovies(GetAllMoviesQuery getAllMoviesQuery)
         {
-            var allMovies = dbContext.Movies.ToList();
+            var allMovies = await sender.Send(getAllMoviesQuery);
             return Ok(allMovies);
         }
 
         //get a movie by its id
         [HttpGet]
         [Route("{id:guid}")]
-        public IActionResult GetMovieById(Guid id)
+        public async Task<IActionResult> GetMovieById(Guid id)
         {
-            var movie = dbContext.Movies.Find(id);
+            var movie = await sender.Send(new GetMovieByIdQuery(id));
 
-            if (movie is null )
+            if(movie is null)
             {
-                return NotFound();
+                return NotFound("movie not found");
             }
-            //var subject = "MOVIE FOUND";
-            //var message = "would you like to get a ticket to see this movie?";
-            //emailSender.SendEmailAsync(logUserDto.UserName, subject, message);
 
             return Ok(movie);
         }
@@ -50,18 +54,9 @@ namespace MovieManager.Controllers
         //add movie
         [HttpPost]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
-        public IActionResult AddMovie(AddMovieDto addMovieDto)
+        public async Task<IActionResult> AddMovie(AddMovieCommand addMovieCommand)
         {
-            var movie = new Movie()
-            {
-                Title = addMovieDto.Title,
-                Genre = addMovieDto.Genre,
-                ReleaseYear = addMovieDto.ReleaseYear,
-                IsShowing = addMovieDto.IsShowing,
-            };
-
-            dbContext.Movies.Add(movie);
-            dbContext.SaveChanges();
+            var movie = await sender.Send(addMovieCommand);
 
             return Ok(movie);
         }
@@ -70,37 +65,37 @@ namespace MovieManager.Controllers
         [HttpPut]
         [Route("{id:guid}")]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
-        public IActionResult UpdateMovie(Guid id, UpdateMovieDto updateMovieDto)
+        public async Task<IActionResult> UpdateMovie(Guid id, UpdateMovieDto updateMovieDto)
         {
-            var movie = dbContext.Movies.Find(id);
-            if (movie is null)
+            var command = new UpdateMovieCommand(
+                id, 
+                updateMovieDto.Genre,
+                updateMovieDto.IsShowing
+                );
+
+            var updatedMovie = await sender.Send(command);
+
+            if (updatedMovie is null)
             {
-                return NotFound();
+                return NotFound("movie not found");
             }
 
-            movie.Genre = updateMovieDto.Genre;
-            movie.IsShowing = updateMovieDto.IsShowing;
-
-            dbContext.SaveChanges();
-
-            return Ok(movie);
+            return Ok(updatedMovie);
         }
 
         //delete movie
         [HttpDelete]
         [Route("{id:guid}")]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
-        public IActionResult DeleteMovie(Guid id)
+        public async Task<IActionResult> DeleteMovie(Guid id)
         {
-            var movie = dbContext.Movies.Find(id);
+            var command = new DeleteMovieCommand(id);
+            var result = await sender.Send(command);
 
-            if (movie is null)
+            if (result is null)
             {
-                return NotFound();
+                return NotFound("movie not found");
             }
-
-            dbContext.Movies.Remove(movie);
-            dbContext.SaveChanges();
 
             return Ok();
         }

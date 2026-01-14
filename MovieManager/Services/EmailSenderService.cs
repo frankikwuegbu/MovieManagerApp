@@ -3,7 +3,7 @@ using System.Net.Mail;
 
 namespace MovieManager.Services
 {
-    public class EmailSenderService
+    public class EmailSenderService : IEmailSenderService
     {
         private readonly IConfiguration config;
 

@@ -152,3 +152,6 @@ C:\Users\frank.io\source\repos\MovieManagerApp\MovieManager\bin\Debug\net8.0\Mic
 C:\Users\frank.io\source\repos\MovieManagerApp\MovieManager\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\frank.io\source\repos\MovieManagerApp\MovieManager\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\frank.io\source\repos\MovieManagerApp\MovieManager\obj\Debug\net8.0\MovieManager.sourcelink.json
+C:\Users\frank.io\source\repos\MovieManagerApp\MovieManager\bin\Debug\net8.0\MediatR.dll
+C:\Users\frank.io\source\repos\MovieManagerApp\MovieManager\bin\Debug\net8.0\MediatR.Contracts.dll
+C:\Users\frank.io\source\repos\MovieManagerApp\MovieManager\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll

@@ -6,7 +6,13 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "getAllMoviesQuery",
+        "Type": "MovieManager.Controllers.Queries.GetAllMovies.GetAllMoviesQuery",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -18,8 +24,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "addMovieDto",
-        "Type": "MovieManager.Models.Dtos.AddMovieDto",
+        "Name": "addMovieCommand",
+        "Type": "MovieManager.Controllers.Commands.AddMovie.AddMovieCommand",
         "IsRequired": true
       }
     ],

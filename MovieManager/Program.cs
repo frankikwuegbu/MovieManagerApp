@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MovieManager.Controllers.Commands.AddMovie;
 using MovieManager.Data;
 using MovieManager.Extension;
 using MovieManager.Models.Entities;
@@ -19,6 +20,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<MovieManagerDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddMediatR(configuration =>
+{
+configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
 
 
 builder.Services.AddIdentity<User, IdentityRole>()
