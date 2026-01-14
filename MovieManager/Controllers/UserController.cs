@@ -13,14 +13,14 @@ namespace MovieManager.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
         private readonly JwtAuthTokenService authToken;
+        private readonly EmailSenderService emailSender;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, JwtAuthTokenService authToken)
+        public UserController(UserManager<User> userManager, JwtAuthTokenService authToken, EmailSenderService emailSender)
         {
             this.userManager = userManager;
-            this.signInManager = signInManager;
             this.authToken = authToken;
+            this.emailSender = emailSender;
         }
 
         [HttpPost("register")]
@@ -38,6 +38,12 @@ namespace MovieManager.Controllers
             if (!result.Succeeded) return BadRequest(result.Errors);
 
             await userManager.AddToRoleAsync(user, regUserDto.Roles.ToString());
+
+            var subject = "REGISTRATION COMPLETE";
+            var message = $"{regUserDto.FullName} your registration is complete.\n" +
+                $"You can now get tickets to see any movie of your choice";
+
+            await emailSender.SendEmailAsync(regUserDto.UserName, subject, message);
 
             return Ok("User created");
         }

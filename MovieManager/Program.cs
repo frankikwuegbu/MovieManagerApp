@@ -52,6 +52,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<JwtAuthTokenService>();
+builder.Services.AddTransient<EmailSenderService>();
 
 var app = builder.Build();
 

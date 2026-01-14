@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MovieManager.Data;
 using MovieManager.Models.Dtos;
 using MovieManager.Models.Entities;
+using MovieManager.Services;
 
 namespace MovieManager.Controllers
 {
@@ -12,10 +13,12 @@ namespace MovieManager.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly MovieManagerDbContext dbContext;
+        private readonly EmailSenderService emailSender;
 
-        public MoviesController(MovieManagerDbContext dbContext)
+        public MoviesController(MovieManagerDbContext dbContext, EmailSenderService emailSender)
         {
             this.dbContext = dbContext;
+            this.emailSender = emailSender;
         }
 
         //gets a list of all movies
@@ -37,6 +40,10 @@ namespace MovieManager.Controllers
             {
                 return NotFound();
             }
+            //var subject = "MOVIE FOUND";
+            //var message = "would you like to get a ticket to see this movie?";
+            //emailSender.SendEmailAsync(logUserDto.UserName, subject, message);
+
             return Ok(movie);
         }
 
