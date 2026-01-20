@@ -19,12 +19,10 @@ namespace MovieManager.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        private readonly IEmailSenderService emailSender;
         private readonly ISender sender;
 
-        public MoviesController(ISender sender, IEmailSenderService emailSender)
+        public MoviesController(ISender sender)
         {
-            this.emailSender = emailSender;
             this.sender = sender;
         }
 
@@ -92,12 +90,7 @@ namespace MovieManager.Controllers
             var command = new DeleteMovieCommand(id);
             var result = await sender.Send(command);
 
-            if (result is null)
-            {
-                return NotFound("movie not found");
-            }
-
-            return Ok();
+            return Ok(result);
         }
     }
 }

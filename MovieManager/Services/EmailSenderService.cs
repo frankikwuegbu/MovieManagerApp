@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using MovieManager.Models.Abstractions;
+using System.Net;
 using System.Net.Mail;
 
 namespace MovieManager.Services

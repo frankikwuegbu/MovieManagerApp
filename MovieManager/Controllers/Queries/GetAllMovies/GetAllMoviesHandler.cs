@@ -1,20 +1,21 @@
 ﻿using MediatR;
 using MovieManager.Data;
+using MovieManager.Models.Abstractions;
 using MovieManager.Models.Entities;
 
 namespace MovieManager.Controllers.Queries.GetAllMovies;
 
-public class GetAllMoviesHandler : IRequestHandler<GetAllMoviesQuery, List<Movie>?>
+public class GetAllMoviesHandler : IRequestHandler<GetAllMoviesQuery, List<Movie>>
 {
-    private readonly MovieManagerDbContext dbContext;
+    private readonly IMovieManagerRepository _repository;
 
-    public GetAllMoviesHandler(MovieManagerDbContext dbContext)
+    public GetAllMoviesHandler(IMovieManagerRepository repository)
     {
-        this.dbContext = dbContext;
+        _repository = repository;
     }
-    public async Task<List<Movie>?> Handle(GetAllMoviesQuery request, CancellationToken cancellationToken)
+    public async Task<List<Movie>> Handle(GetAllMoviesQuery request, CancellationToken cancellationToken)
     {
-        var allMovies = dbContext.Movies.ToList();
+        var allMovies = await _repository.GetAllMoviesAsync(request, cancellationToken);
 
         return allMovies;
     }

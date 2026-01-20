@@ -1,28 +1,21 @@
 ﻿using MediatR;
-using MovieManager.Data;
+using MovieManager.Models;
+using MovieManager.Models.Abstractions;
 
 namespace MovieManager.Controllers.Commands.DeleteMovie;
 
-public class DeleteMovieHandler : IRequestHandler<DeleteMovieCommand, string?>
+public class DeleteMovieHandler : IRequestHandler<DeleteMovieCommand, ApiResponse>
 {
-    private readonly MovieManagerDbContext dbContext;
+    private readonly IMovieManagerRepository _repository;
 
-    public DeleteMovieHandler(MovieManagerDbContext dbContext)
+    public DeleteMovieHandler(IMovieManagerRepository repository)
     {
-        this.dbContext = dbContext;
+        _repository = repository;
     }
-    public async Task<string?> Handle(DeleteMovieCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse> Handle(DeleteMovieCommand request, CancellationToken cancellationToken)
     {
-        var movie = dbContext.Movies.Find(request.Id);
+        var deletedMovie = await _repository.DeleteMovieAsync(request, cancellationToken);
 
-        if (movie is null)
-        {
-            return "movie not found";
-        }
-
-        dbContext.Movies.Remove(movie);
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return "movie deleted";
+        return deletedMovie;
     }
 }

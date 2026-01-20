@@ -1,33 +1,22 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
-using MovieManager.Data;
-using MovieManager.Models.Dtos;
-using MovieManager.Models.Entities;
+using MovieManager.Models;
+using MovieManager.Models.Abstractions;
 
 namespace MovieManager.Controllers.Commands.UpdateMovie;
 
-public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, Movie?>
+public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, ApiResponse>
 {
-    private readonly MovieManagerDbContext dbContext;
+    private readonly IMovieManagerRepository _repository;
 
-    public UpdateMovieCommandHandler(MovieManagerDbContext dbContext)
+    public UpdateMovieCommandHandler(IMovieManagerRepository repository)
     {
-        this.dbContext = dbContext;
+        _repository = repository;
     }
 
-    public async Task<Movie?> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
     {
-        var movie = dbContext.Movies.Find(request.Id);
+        var updatedMovie = await _repository.UpdateMovieAsync(request, cancellationToken);
 
-        if (movie is null)
-            return null;
-
-        movie.Genre = request.Genre;
-        movie.IsShowing = request.IsShowing;
-
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return movie;
+        return updatedMovie;
     }
 }

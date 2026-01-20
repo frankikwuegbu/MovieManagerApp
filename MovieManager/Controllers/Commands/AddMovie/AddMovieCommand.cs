@@ -1,6 +1,5 @@
 ﻿using MediatR;
-using MovieManager.Models.Dtos;
-using MovieManager.Models.Entities;
+using MovieManager.Models;
 
 namespace MovieManager.Controllers.Commands.AddMovie;
 
@@ -9,4 +8,4 @@ public record AddMovieCommand(
     string Genre,
     int ReleaseYear,
     bool IsShowing
-) : IRequest<Movie>;
+) : IRequest<ApiResponse>;

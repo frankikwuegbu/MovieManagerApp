@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MovieManager.Models.Abstractions;
 using MovieManager.Models.Dtos;
 using MovieManager.Models.Entities;
 using MovieManager.Services;
@@ -14,13 +15,13 @@ namespace MovieManager.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly JwtAuthTokenService authToken;
-        private readonly EmailSenderService emailSender;
+        private readonly IEmailSenderService _emailSender;
 
-        public UserController(UserManager<User> userManager, JwtAuthTokenService authToken, EmailSenderService emailSender)
+        public UserController(UserManager<User> userManager, JwtAuthTokenService authToken, IEmailSenderService emailSender)
         {
             this.userManager = userManager;
             this.authToken = authToken;
-            this.emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         [HttpPost("register")]
@@ -43,7 +44,7 @@ namespace MovieManager.Controllers
             var message = $"{regUserDto.FullName} your registration is complete.\n" +
                 $"You can now get tickets to see any movie of your choice";
 
-            await emailSender.SendEmailAsync(regUserDto.UserName, subject, message);
+            await _emailSender.SendEmailAsync(regUserDto.UserName, subject, message);
 
             return Ok("User created");
         }
