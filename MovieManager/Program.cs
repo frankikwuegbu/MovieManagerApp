@@ -12,9 +12,9 @@ app.UseSwaggerGen();
 
 app.UseHttpsRedirection();
 
-app.MapControllers();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

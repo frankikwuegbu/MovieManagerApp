@@ -3,8 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|c:\\users\\frank.io\\source\\repos\\moviemanagerapp\\moviemanager\\startup\\addjwtauthenticationconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|solutionrelative:moviemanager\\startup\\addjwtauthenticationconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|c:\\users\\frank.io\\source\\repos\\moviemanagerapp\\moviemanager\\services\\jwtauthtokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|solutionrelative:moviemanager\\services\\jwtauthtokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|c:\\users\\frank.io\\source\\repos\\moviemanagerapp\\moviemanager\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|solutionrelative:moviemanager\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|c:\\users\\frank.io\\source\\repos\\moviemanagerapp\\moviemanager\\startup\\appbuilderextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|solutionrelative:moviemanager\\startup\\appbuilderextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|c:\\users\\frank.io\\source\\repos\\moviemanagerapp\\moviemanager\\startup\\dependenciesconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|solutionrelative:moviemanager\\startup\\dependenciesconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|c:\\users\\frank.io\\source\\repos\\moviemanagerapp\\moviemanager\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|solutionrelative:moviemanager\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|c:\\users\\frank.io\\source\\repos\\moviemanagerapp\\moviemanager\\services\\emailsenderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9B4137B-AB6C-4CBF-941C-852C154C99F7}|MovieManager\\MovieManager.csproj|solutionrelative:moviemanager\\services\\emailsenderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,24 +38,102 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Program.cs",
-              "RelativeDocumentMoniker": "MovieManager\\Program.cs",
-              "ToolTip": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Program.cs",
-              "RelativeToolTip": "MovieManager\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAbAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "JwtAuthTokenService.cs",
+              "DocumentMoniker": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Services\\JwtAuthTokenService.cs",
+              "RelativeDocumentMoniker": "MovieManager\\Services\\JwtAuthTokenService.cs",
+              "ToolTip": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Services\\JwtAuthTokenService.cs",
+              "RelativeToolTip": "MovieManager\\Services\\JwtAuthTokenService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACMAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-20T10:39:41.986Z",
+              "WhenOpened": "2026-01-21T09:48:28.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AddJwtAuthenticationConfig.cs",
+              "DocumentMoniker": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Startup\\AddJwtAuthenticationConfig.cs",
+              "RelativeDocumentMoniker": "MovieManager\\Startup\\AddJwtAuthenticationConfig.cs",
+              "ToolTip": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Startup\\AddJwtAuthenticationConfig.cs",
+              "RelativeToolTip": "MovieManager\\Startup\\AddJwtAuthenticationConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T09:36:03.653Z",
               "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DependenciesConfig.cs",
+              "DocumentMoniker": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Startup\\DependenciesConfig.cs",
+              "RelativeDocumentMoniker": "MovieManager\\Startup\\DependenciesConfig.cs",
+              "ToolTip": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Startup\\DependenciesConfig.cs",
+              "RelativeToolTip": "MovieManager\\Startup\\DependenciesConfig.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAACUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T08:53:34.975Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppBuilderExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Startup\\AppBuilderExtensions.cs",
+              "RelativeDocumentMoniker": "MovieManager\\Startup\\AppBuilderExtensions.cs",
+              "ToolTip": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Startup\\AppBuilderExtensions.cs",
+              "RelativeToolTip": "MovieManager\\Startup\\AppBuilderExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T08:39:57.392Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MoviesController.cs",
+              "DocumentMoniker": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Controllers\\MoviesController.cs",
+              "RelativeDocumentMoniker": "MovieManager\\Controllers\\MoviesController.cs",
+              "ToolTip": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Controllers\\MoviesController.cs",
+              "RelativeToolTip": "MovieManager\\Controllers\\MoviesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T08:30:16.342Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EmailSenderService.cs",
+              "DocumentMoniker": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Services\\EmailSenderService.cs",
+              "RelativeDocumentMoniker": "MovieManager\\Services\\EmailSenderService.cs",
+              "ToolTip": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Services\\EmailSenderService.cs",
+              "RelativeToolTip": "MovieManager\\Services\\EmailSenderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T08:14:27.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Program.cs",
+              "RelativeDocumentMoniker": "MovieManager\\Program.cs",
+              "ToolTip": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\Program.cs",
+              "RelativeToolTip": "MovieManager\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T10:39:41.986Z",
+              "EditorCaption": ""
             }
           ]
         }

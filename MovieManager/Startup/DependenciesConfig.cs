@@ -13,13 +13,18 @@ public static class DependenciesConfig
     {
         builder.Services.AddControllers();
 
+        builder.Services.AddIdentity<User, IdentityRole>()
+            .AddEntityFrameworkStores<MovieManagerDbContext>()
+            .AddDefaultTokenProviders();
+
+        builder.Services.UseJwtAuthenticationToken(builder.Configuration);
+        builder.Services.AddAuthorization();
+
+        builder.Services.AddScoped<JwtAuthTokenService>();
+
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddSwaggerGenServices();
-
-        builder.Services.AddAuthorization();
-        builder.Services.UseJwtAuthenticationToken(builder.Configuration);
-        builder.Services.AddScoped<JwtAuthTokenService>();
 
         builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
         builder.Services.AddScoped<IMovieManagerRepository, MovieManagerRepository>();
@@ -29,9 +34,5 @@ public static class DependenciesConfig
 
         builder.Services.AddMediatR(configuration =>{
         configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);});
-
-        builder.Services.AddIdentity<User, IdentityRole>()
-            .AddEntityFrameworkStores<MovieManagerDbContext>()
-            .AddDefaultTokenProviders();
     }
 }

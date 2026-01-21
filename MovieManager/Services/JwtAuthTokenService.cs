@@ -33,7 +33,7 @@ public class JwtAuthTokenService
         [
             new(JwtRegisteredClaimNames.Sub, user.Id),
             new(JwtRegisteredClaimNames.Name, user.UserName!),
-            ..roles.Select(r => new Claim(ClaimTypes.Role, r))  //potential error here
+            ..roles.Select(r => new Claim(ClaimTypes.Role, r))
         ];
 
         var tokenDescriptor = new SecurityTokenDescriptor

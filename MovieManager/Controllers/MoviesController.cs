@@ -1,17 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieManager.Controllers.Commands.AddMovie;
 using MovieManager.Controllers.Commands.DeleteMovie;
 using MovieManager.Controllers.Commands.UpdateMovie;
 using MovieManager.Controllers.Queries.GetAllMovies;
 using MovieManager.Controllers.Queries.GetMovieById;
-using MovieManager.Data;
 using MovieManager.Models.Dtos;
 using MovieManager.Models.Entities;
-using MovieManager.Services;
-using System.Threading.Tasks;
 
 namespace MovieManager.Controllers
 {
