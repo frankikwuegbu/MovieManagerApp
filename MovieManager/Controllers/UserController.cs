@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Application.Features.Users.LoginUser;
+using Application.Features.Users.RegisterUser;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MovieManager.Models.Abstractions;
-using MovieManager.Models.Dtos;
-using MovieManager.Models.Entities;
-using MovieManager.Services;
-using System.Data;
 
 namespace MovieManager.Controllers
 {
@@ -13,53 +9,29 @@ namespace MovieManager.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<User> userManager;
-        private readonly JwtAuthTokenService authToken;
-        private readonly IEmailSenderService _emailSender;
+        private readonly ISender _sender;
 
-        public UserController(UserManager<User> userManager, JwtAuthTokenService authToken, IEmailSenderService emailSender)
+        public UserController(ISender sender)
         {
-            this.userManager = userManager;
-            this.authToken = authToken;
-            _emailSender = emailSender;
+            _sender = sender;
         }
 
+        //register user
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUserDto regUserDto)
+        public async Task<IActionResult> Register(RegisterUserCommand request)
         {
-            var user = new User
-            {
-                FullName = regUserDto.FullName,
-                UserName = regUserDto.UserName,
-                PasswordHash = regUserDto.Password,
-                Role = regUserDto.Roles
-            };
-            var result = await userManager.CreateAsync(user, regUserDto.Password);
+            var user = await _sender.Send(request);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
-
-            await userManager.AddToRoleAsync(user, regUserDto.Roles.ToString());
-
-            var subject = "REGISTRATION COMPLETE";
-            var message = $"{regUserDto.FullName} your registration is complete.\n" +
-                $"You can now get tickets to see any movie of your choice";
-
-            await _emailSender.SendEmailAsync(regUserDto.UserName, subject, message);
-
-            return Ok("User created");
+            return Ok(user);
         }
 
+        //login user
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUserDto logUserDto)
+        public async Task<IActionResult> Login(LoginUserCommand request)
         {
-            var user = await userManager.FindByNameAsync(logUserDto.UserName);
+            var user = await _sender.Send(request);
 
-            if (user == null ||
-                ! await userManager.CheckPasswordAsync(user, logUserDto.Password))
-                return Unauthorized("Invalid credentials");
-
-            var token = await authToken.JwtTokenGenerator(user);
-            return Ok(token);
+            return Ok(user);
         }
     }
 }

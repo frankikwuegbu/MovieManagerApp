@@ -93,8 +93,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "logUserDto",
-        "Type": "MovieManager.Models.Dtos.LoginUserDto",
+        "Name": "request",
+        "Type": "Application.Features.Users.LoginUser.LoginUserCommand",
         "IsRequired": true
       }
     ],
@@ -109,8 +109,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "regUserDto",
-        "Type": "MovieManager.Models.Dtos.RegisterUserDto",
+        "Name": "request",
+        "Type": "Application.Features.Users.RegisterUser.RegisterUserCommand",
         "IsRequired": true
       }
     ],

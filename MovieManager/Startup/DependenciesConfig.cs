@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Application.Features.Users.RegisterUser;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.Data;
 using MovieManager.Models.Abstractions;
@@ -22,17 +23,18 @@ public static class DependenciesConfig
 
         builder.Services.AddScoped<JwtAuthTokenService>();
 
+        builder.Services.AddMediatR(configuration =>{
+        configuration.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);});
+
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddSwaggerGenServices();
 
         builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
         builder.Services.AddScoped<IMovieManagerRepository, MovieManagerRepository>();
+        builder.Services.AddScoped<IMovieManagerUsersRepository, MovieManagerUsersRepository>();
 
         builder.Services.AddDbContext<MovieManagerDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-        builder.Services.AddMediatR(configuration =>{
-        configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);});
     }
 }
