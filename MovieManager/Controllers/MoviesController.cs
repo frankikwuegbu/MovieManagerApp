@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using Application.Features.Movies.UpdateMovie;
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieManager.Controllers.Commands.AddMovie;
 using MovieManager.Controllers.Commands.DeleteMovie;
-using MovieManager.Controllers.Commands.UpdateMovie;
 using MovieManager.Controllers.Queries.GetAllMovies;
 using MovieManager.Controllers.Queries.GetMovieById;
 using MovieManager.Models.Dtos;
@@ -15,18 +16,20 @@ namespace MovieManager.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        private readonly ISender sender;
+        private readonly ISender _sender;
+        private readonly IMapper _mapper;
 
-        public MoviesController(ISender sender)
+        public MoviesController(ISender sender, IMapper mapper)
         {
-            this.sender = sender;
+            _sender = sender;
+            _mapper = mapper;
         }
 
         //gets a list of all movies
         [HttpGet]
         public async Task<IActionResult> GetAllMovies(GetAllMoviesQuery getAllMoviesQuery)
         {
-            var allMovies = await sender.Send(getAllMoviesQuery);
+            var allMovies = await _sender.Send(getAllMoviesQuery);
             return Ok(allMovies);
         }
 
@@ -35,7 +38,7 @@ namespace MovieManager.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> GetMovieById(Guid id)
         {
-            var movie = await sender.Send(new GetMovieByIdQuery(id));
+            var movie = await _sender.Send(new GetMovieByIdQuery(id));
 
             if(movie is null)
             {
@@ -48,9 +51,10 @@ namespace MovieManager.Controllers
         //add movie
         [HttpPost]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
-        public async Task<IActionResult> AddMovie(AddMovieCommand addMovieCommand)
+        public async Task<IActionResult> AddMovie(AddMovieDto addMovieDto)
         {
-            var movie = await sender.Send(addMovieCommand);
+            var request = _mapper.Map<AddMovieCommand>(addMovieDto);
+            var movie = await _sender.Send(request);
 
             return Ok(movie);
         }
@@ -61,18 +65,13 @@ namespace MovieManager.Controllers
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
         public async Task<IActionResult> UpdateMovie(Guid id, UpdateMovieDto updateMovieDto)
         {
-            var command = new UpdateMovieCommand(
-                id, 
+            var request = new UpdateMovieCommand(
+                id,
                 updateMovieDto.Genre,
                 updateMovieDto.IsShowing
                 );
 
-            var updatedMovie = await sender.Send(command);
-
-            if (updatedMovie is null)
-            {
-                return NotFound("movie not found");
-            }
+            var updatedMovie = await _sender.Send(request);
 
             return Ok(updatedMovie);
         }
@@ -84,7 +83,7 @@ namespace MovieManager.Controllers
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
             var command = new DeleteMovieCommand(id);
-            var result = await sender.Send(command);
+            var result = await _sender.Send(command);
 
             return Ok(result);
         }

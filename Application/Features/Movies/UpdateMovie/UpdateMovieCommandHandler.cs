@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Features.Movies.UpdateMovie;
+using MediatR;
 using MovieManager.Models;
 using MovieManager.Models.Abstractions;
 

@@ -1,5 +1,6 @@
 ﻿using Application.Features.Users.LoginUser;
 using Application.Features.Users.RegisterUser;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using MovieManager.Models;
 using MovieManager.Models.Abstractions;
@@ -14,16 +15,19 @@ public class MovieManagerUsersRepository : IMovieManagerUsersRepository
     private readonly UserManager<User> _userManager;
     private readonly JwtAuthTokenService _authToken;
     private readonly IEmailSenderService _emailSender;
+    private readonly IMapper _mapper;
 
     public MovieManagerUsersRepository(MovieManagerDbContext dbContext,
         UserManager<User> userManager,
         JwtAuthTokenService authToken,
-        IEmailSenderService emailSender)
+        IEmailSenderService emailSender,
+        IMapper mapper)
     {
         _dbContext = dbContext;
         _userManager = userManager;
         _authToken = authToken;
         _emailSender = emailSender;
+        _mapper = mapper;
     }
 
     public async Task<ApiResponse> LoginUserAsync(LoginUserCommand request)
@@ -42,13 +46,8 @@ public class MovieManagerUsersRepository : IMovieManagerUsersRepository
 
     public async Task<ApiResponse> RegisterUserAsync(RegisterUserCommand request)
     {
-        var user = new User
-        {
-            FullName = request.FullName,
-            UserName = request.UserName,
-            PasswordHash = request.Password,
-            Role = request.Roles
-        };
+        var user = _mapper.Map<User>(request);
+
         var result = await _userManager.CreateAsync(user, request.Password);
 
         if (!result.Succeeded)
@@ -60,7 +59,7 @@ public class MovieManagerUsersRepository : IMovieManagerUsersRepository
         var message = $"{request.FullName} your registration is complete.\n" +
             $"You can now get tickets to see any movie of your choice";
 
-        var emailSent = _emailSender.SendEmailAsync(request.UserName, subject, message);
+        await _emailSender.SendEmailAsync(request.UserName, subject, message);
 
         return new ApiResponse(true, "user registration successful!");
     }

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "WyNfHwK5p/M=",
+  "dgSpecHash": "w8ni67J4d8k=",
   "success": true,
   "projectFilePath": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\Application\\Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\frank.io\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\frank.io\\.nuget\\packages\\mediatr\\14.0.0\\mediatr.14.0.0.nupkg.sha512",
     "C:\\Users\\frank.io\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\frank.io\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.22\\microsoft.aspnetcore.cryptography.internal.8.0.22.nupkg.sha512",

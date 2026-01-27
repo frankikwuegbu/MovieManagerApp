@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MovieManager.Models;
 
-namespace MovieManager.Controllers.Commands.UpdateMovie;
+namespace Application.Features.Movies.UpdateMovie;
 
 public record UpdateMovieCommand(
     Guid Id,

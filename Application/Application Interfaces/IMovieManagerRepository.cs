@@ -1,6 +1,6 @@
-﻿using MovieManager.Controllers.Commands.AddMovie;
+﻿using Application.Features.Movies.UpdateMovie;
+using MovieManager.Controllers.Commands.AddMovie;
 using MovieManager.Controllers.Commands.DeleteMovie;
-using MovieManager.Controllers.Commands.UpdateMovie;
 using MovieManager.Controllers.Queries.GetAllMovies;
 using MovieManager.Controllers.Queries.GetMovieById;
 using MovieManager.Models.Entities;

@@ -1,4 +1,6 @@
 ﻿using Application.Features.Users.RegisterUser;
+using Application.Profiles;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.Data;
@@ -24,7 +26,9 @@ public static class DependenciesConfig
         builder.Services.AddScoped<JwtAuthTokenService>();
 
         builder.Services.AddMediatR(configuration =>{
-        configuration.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);});
+            configuration.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);});
+
+        builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
         builder.Services.AddEndpointsApiExplorer();
 

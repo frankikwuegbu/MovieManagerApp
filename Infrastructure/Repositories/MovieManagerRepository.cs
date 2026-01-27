@@ -1,22 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Features.Movies.UpdateMovie;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MovieManager.Controllers.Commands.AddMovie;
 using MovieManager.Controllers.Commands.DeleteMovie;
-using MovieManager.Controllers.Commands.UpdateMovie;
 using MovieManager.Controllers.Queries.GetAllMovies;
 using MovieManager.Controllers.Queries.GetMovieById;
+using MovieManager.Data;
 using MovieManager.Models;
 using MovieManager.Models.Abstractions;
+using MovieManager.Models.Dtos;
 using MovieManager.Models.Entities;
 
-namespace MovieManager.Data;
+namespace Infrastructure.Repositories;
 
 public class MovieManagerRepository : IMovieManagerRepository
 {
     private readonly MovieManagerDbContext _dbContext;
+    private readonly IMapper _mapper;
 
-    public MovieManagerRepository(MovieManagerDbContext dbContext)
+    public MovieManagerRepository(MovieManagerDbContext dbContext, IMapper maper)
     {
         _dbContext = dbContext;
+        _mapper = maper;
     }
 
     //get all movies
@@ -38,13 +43,7 @@ public class MovieManagerRepository : IMovieManagerRepository
     //add movie
     public async Task<ApiResponse> AddMovieAsync(AddMovieCommand request, CancellationToken cancellationToken)
     {
-        var movie = new Movie()
-        {
-            Title = request.Title,
-            Genre = request.Genre,
-            ReleaseYear = request.ReleaseYear,
-            IsShowing = request.IsShowing
-        };
+        var movie = _mapper.Map<Movie>(request);
 
         _dbContext.Movies.Add(movie);
         await _dbContext.SaveChangesAsync(cancellationToken);
@@ -76,8 +75,7 @@ public class MovieManagerRepository : IMovieManagerRepository
         if (movie is null)
             return new ApiResponse(false, "movie not found!");
 
-        movie.Genre = request.Genre;
-        movie.IsShowing = request.IsShowing;
+        _mapper.Map(request, movie);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

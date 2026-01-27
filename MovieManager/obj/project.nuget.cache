@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "zCUC5CL6GiI=",
+  "dgSpecHash": "iIhp9HmZs4Y=",
   "success": true,
   "projectFilePath": "C:\\Users\\frank.io\\source\\repos\\MovieManagerApp\\MovieManager\\MovieManager.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\frank.io\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\frank.io\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\frank.io\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\frank.io\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
