@@ -4,14 +4,9 @@ using MovieManager.Models.Abstractions;
 
 namespace Application.Features.Users.RegisterUser;
 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, ApiResponse>
+public class RegisterUserCommandHandler(IMovieManagerUsersRepository repository) : IRequestHandler<RegisterUserCommand, ApiResponse>
 {
-    private readonly IMovieManagerUsersRepository _repository;
-
-    public RegisterUserCommandHandler(IMovieManagerUsersRepository repository)
-    {
-        _repository = repository;
-    }
+    private readonly IMovieManagerUsersRepository _repository = repository;
 
     public async Task<ApiResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {

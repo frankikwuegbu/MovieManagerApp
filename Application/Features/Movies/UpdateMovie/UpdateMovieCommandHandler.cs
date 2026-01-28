@@ -5,14 +5,9 @@ using MovieManager.Models.Abstractions;
 
 namespace MovieManager.Controllers.Commands.UpdateMovie;
 
-public class UpdateMovieCommandHandler : IRequestHandler<UpdateMovieCommand, ApiResponse>
+public class UpdateMovieCommandHandler(IMovieManagerRepository repository) : IRequestHandler<UpdateMovieCommand, ApiResponse>
 {
-    private readonly IMovieManagerRepository _repository;
-
-    public UpdateMovieCommandHandler(IMovieManagerRepository repository)
-    {
-        _repository = repository;
-    }
+    private readonly IMovieManagerRepository _repository = repository;
 
     public async Task<ApiResponse> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
     {

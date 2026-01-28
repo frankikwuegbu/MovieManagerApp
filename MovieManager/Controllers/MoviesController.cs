@@ -14,16 +14,9 @@ namespace MovieManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MoviesController : ControllerBase
+    public class MoviesController(ISender sender) : ControllerBase
     {
-        private readonly ISender _sender;
-        private readonly IMapper _mapper;
-
-        public MoviesController(ISender sender, IMapper mapper)
-        {
-            _sender = sender;
-            _mapper = mapper;
-        }
+        private readonly ISender _sender = sender;
 
         //gets a list of all movies
         [HttpGet]
@@ -34,8 +27,7 @@ namespace MovieManager.Controllers
         }
 
         //get a movie by its id
-        [HttpGet]
-        [Route("{id:guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetMovieById(Guid id)
         {
             var movie = await _sender.Send(new GetMovieByIdQuery(id));
@@ -46,17 +38,15 @@ namespace MovieManager.Controllers
         //add movie
         [HttpPost]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
-        public async Task<IActionResult> AddMovie(AddMovieDto addMovieDto)
+        public async Task<IActionResult> AddMovie(AddMovieCommand request)
         {
-            var request = _mapper.Map<AddMovieCommand>(addMovieDto);
             var movie = await _sender.Send(request);
 
             return Ok(movie);
         }
 
         //update movie
-        [HttpPut]
-        [Route("{id:guid}")]
+        [HttpPut("{id:guid}")]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
         public async Task<IActionResult> UpdateMovie(Guid id, UpdateMovieDto updateMovieDto)
         {
@@ -72,8 +62,7 @@ namespace MovieManager.Controllers
         }
 
         //delete movie
-        [HttpDelete]
-        [Route("{id:guid}")]
+        [HttpDelete("{id:guid}")]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {

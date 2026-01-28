@@ -4,14 +4,9 @@ using MovieManager.Models.Abstractions;
 
 namespace MovieManager.Controllers.Commands.AddMovie;
 
-public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand, ApiResponse>
+public class AddMovieCommandHandler(IMovieManagerRepository repository) : IRequestHandler<AddMovieCommand, ApiResponse>
 {
-    private readonly IMovieManagerRepository _repository;
-
-    public AddMovieCommandHandler(IMovieManagerRepository repository)
-    {
-        _repository = repository;
-    }
+    private readonly IMovieManagerRepository _repository = repository;
 
     public async Task<ApiResponse> Handle(AddMovieCommand request, CancellationToken cancellationToken)
     {

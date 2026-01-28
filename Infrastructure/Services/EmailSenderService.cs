@@ -6,17 +6,12 @@ using System.Net.Mail;
 
 namespace MovieManager.Services
 {
-    public class EmailSenderService : IEmailSenderService
+    public class EmailSenderService(IConfiguration config) : IEmailSenderService
     {
-        private readonly IConfiguration config;
-
-        public EmailSenderService(IConfiguration config)
-        {
-            this.config = config;
-        }
+        private readonly IConfiguration _config = config;
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            var smtpSettings = config.GetSection("Smtp");
+            var smtpSettings = _config.GetSection("Smtp");
 
             var client = new SmtpClient
             {

@@ -1,34 +1,25 @@
 ﻿using Application.Features.Users.LoginUser;
 using Application.Features.Users.RegisterUser;
 using AutoMapper;
+using Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using MovieManager.Models;
 using MovieManager.Models.Abstractions;
 using MovieManager.Models.Entities;
 using MovieManager.Services;
 
-namespace MovieManager.Data;
+namespace Infrastructure.Repositories;
 
-public class MovieManagerUsersRepository : IMovieManagerUsersRepository
+public class MovieManagerUsersRepository(IMapper mapper, 
+    ILogger<MovieManagerUsersRepository> logger,
+    UserManager<User> userManager,
+    JwtAuthTokenService authToken,
+    IEmailSenderService emailSender) : BaseMovieManagerRepository(mapper, logger), IMovieManagerUsersRepository
 {
-    private readonly MovieManagerDbContext _dbContext;
-    private readonly UserManager<User> _userManager;
-    private readonly JwtAuthTokenService _authToken;
-    private readonly IEmailSenderService _emailSender;
-    private readonly IMapper _mapper;
-
-    public MovieManagerUsersRepository(MovieManagerDbContext dbContext,
-        UserManager<User> userManager,
-        JwtAuthTokenService authToken,
-        IEmailSenderService emailSender,
-        IMapper mapper)
-    {
-        _dbContext = dbContext;
-        _userManager = userManager;
-        _authToken = authToken;
-        _emailSender = emailSender;
-        _mapper = mapper;
-    }
+    private readonly UserManager<User> _userManager = userManager;
+    private readonly JwtAuthTokenService _authToken = authToken;
+    private readonly IEmailSenderService _emailSender = emailSender;
 
     public async Task<ApiResponse> LoginUserAsync(LoginUserCommand request)
     {
@@ -46,7 +37,7 @@ public class MovieManagerUsersRepository : IMovieManagerUsersRepository
 
     public async Task<ApiResponse> RegisterUserAsync(RegisterUserCommand request)
     {
-        var user = _mapper.Map<User>(request);
+        var user = mapper.Map<User>(request);
 
         var result = await _userManager.CreateAsync(user, request.Password);
 

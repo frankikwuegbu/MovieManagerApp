@@ -3,14 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MovieManager.ExceptionHandling;
 
-internal sealed class GlobalExceptionHandling : IExceptionHandler
+internal sealed class GlobalExceptionHandling(ILogger<GlobalExceptionHandling> logger) : IExceptionHandler
 {
-    private readonly ILogger _logger;
-
-    public GlobalExceptionHandling(ILogger<GlobalExceptionHandling> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger _logger = logger;
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext,
         Exception exception,

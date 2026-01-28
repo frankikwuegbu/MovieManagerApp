@@ -4,14 +4,10 @@ using MovieManager.Models.Abstractions;
 
 namespace MovieManager.Controllers.Queries.GetMovieById;
 
-public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdQuery, ApiResponse?>
+public class GetMovieByIdHandler(IMovieManagerRepository repository) : IRequestHandler<GetMovieByIdQuery, ApiResponse?>
 {
-    private readonly IMovieManagerRepository _repository;
+    private readonly IMovieManagerRepository _repository = repository;
 
-    public GetMovieByIdHandler(IMovieManagerRepository repository)
-    {
-        _repository = repository;
-    }
     public async Task<ApiResponse?> Handle(GetMovieByIdQuery request, CancellationToken cancellationToken)
     {
         var foundMovie = await _repository.GetMovieByIdAsync(request, cancellationToken);
