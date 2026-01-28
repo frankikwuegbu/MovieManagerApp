@@ -1,3 +1,4 @@
+using MovieManager.ExceptionHandling;
 using MovieManager.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ await app.IdentityRoleSeedingAsync();
 app.UseSwaggerGen();
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.UseAuthentication();
 app.UseAuthorization();

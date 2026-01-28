@@ -4,6 +4,7 @@ using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.Data;
+using MovieManager.ExceptionHandling;
 using MovieManager.Models.Abstractions;
 using MovieManager.Models.Entities;
 using MovieManager.Services;
@@ -29,6 +30,9 @@ public static class DependenciesConfig
             configuration.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);});
 
         builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
+        builder.Services.AddExceptionHandler<GlobalExceptionHandling>();
+        builder.Services.AddProblemDetails();
 
         builder.Services.AddEndpointsApiExplorer();
 

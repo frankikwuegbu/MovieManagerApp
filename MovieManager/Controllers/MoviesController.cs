@@ -40,11 +40,6 @@ namespace MovieManager.Controllers
         {
             var movie = await _sender.Send(new GetMovieByIdQuery(id));
 
-            if(movie is null)
-            {
-                return NotFound("movie not found");
-            }
-
             return Ok(movie);
         }
 
