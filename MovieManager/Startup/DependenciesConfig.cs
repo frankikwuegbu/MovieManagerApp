@@ -1,5 +1,7 @@
 ﻿using Application.Features.Users.RegisterUser;
 using Application.Profiles;
+using Application.Validators;
+using FluentValidation;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,8 @@ public static class DependenciesConfig
 {
     public static void AddDependencies(this WebApplicationBuilder builder)
     {
+        builder.Services.AddValidatorsFromAssembly(typeof(RegisterUserCommandValidator).Assembly);
+
         builder.Services.AddControllers();
 
         builder.Services.AddIdentity<User, IdentityRole>()
@@ -31,6 +35,7 @@ public static class DependenciesConfig
 
         builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
+        builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         builder.Services.AddExceptionHandler<GlobalExceptionHandling>();
         builder.Services.AddProblemDetails();
 

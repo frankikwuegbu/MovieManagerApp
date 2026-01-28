@@ -1,5 +1,4 @@
 ﻿using Application.Features.Movies.UpdateMovie;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +30,6 @@ namespace MovieManager.Controllers
         public async Task<IActionResult> GetMovieById(Guid id)
         {
             var movie = await _sender.Send(new GetMovieByIdQuery(id));
-
             return Ok(movie);
         }
 
@@ -41,7 +39,6 @@ namespace MovieManager.Controllers
         public async Task<IActionResult> AddMovie(AddMovieCommand request)
         {
             var movie = await _sender.Send(request);
-
             return Ok(movie);
         }
 
@@ -57,7 +54,6 @@ namespace MovieManager.Controllers
                 );
 
             var updatedMovie = await _sender.Send(request);
-
             return Ok(updatedMovie);
         }
 
@@ -68,7 +64,6 @@ namespace MovieManager.Controllers
         {
             var command = new DeleteMovieCommand(id);
             var result = await _sender.Send(command);
-
             return Ok(result);
         }
     }

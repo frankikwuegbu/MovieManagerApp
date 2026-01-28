@@ -11,5 +11,5 @@ public enum UserRoles
 public class User : IdentityUser
 {
     public required string FullName { get; set; }
-    public UserRoles Role { get; set; }
+    public UserRoles Role { get; set; } = UserRoles.ADMIN;
 }

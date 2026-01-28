@@ -16,7 +16,6 @@ namespace MovieManager.Controllers
         public async Task<IActionResult> Register(RegisterUserCommand request)
         {
             var user = await _sender.Send(request);
-
             return Ok(user);
         }
 
@@ -25,7 +24,6 @@ namespace MovieManager.Controllers
         public async Task<IActionResult> Login(LoginUserCommand request)
         {
             var user = await _sender.Send(request);
-
             return Ok(user);
         }
     }
