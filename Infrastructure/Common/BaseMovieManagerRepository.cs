@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Common;
 
-public class BaseMovieManagerRepository(IMapper mapper, ILogger logger)
+public class BaseMovieManagerRepository(IMapper mapper, ILogger logger) : ControllerBase
 {
-    private readonly IMapper _mapper = mapper;
-    private readonly ILogger _logger = logger;
+    private IMapper _mapper = mapper;
+    private ILogger _logger = logger;
 }

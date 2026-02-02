@@ -1,20 +1,20 @@
-﻿using FluentValidation;
+﻿using Application.Interface;
+using Domain;
+using FluentValidation;
 using MediatR;
-using MovieManager.Models;
-using MovieManager.Models.Abstractions;
 
 namespace Application.Features.Users.LoginUser;
 
-public class LoginUserCommandHandler(IMovieManagerUsersRepository repository, IValidator<LoginUserCommand> validator) : IRequestHandler<LoginUserCommand, ApiResponse>
+public class LoginUserCommandHandler(IUsersDbContext context, IValidator<LoginUserCommand> validator) : IRequestHandler<LoginUserCommand, ApiResponse>
 {
-    private readonly IMovieManagerUsersRepository _repository = repository;
+    private readonly IUsersDbContext _context = context;
     private readonly IValidator<LoginUserCommand> _validator = validator;
 
     public async Task<ApiResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         _validator.ValidateAndThrow(request);
 
-        var loginUser = await _repository.LoginUserAsync(request);
+        var loginUser = await _context.LoginUserAsync(request);
         return loginUser;
     }
 }

@@ -1,7 +1,7 @@
-﻿using MediatR;
-using MovieManager.Models;
+﻿using Domain;
+using MediatR;
 using MovieManager.Models.Entities;
 
-namespace MovieManager.Controllers.Queries.GetAllMovies;
+namespace Application.Features.Movies.GetAllMovies;
 
 public record GetAllMoviesQuery() : IRequest<ApiResponse>;

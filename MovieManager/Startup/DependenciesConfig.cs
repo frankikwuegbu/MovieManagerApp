@@ -1,8 +1,9 @@
 ﻿using Application.Features.Users.RegisterUser;
+using Application.Interface;
 using Application.Profiles;
 using Application.Validators;
 using FluentValidation;
-using Infrastructure.Repositories;
+using Infrastructure.DbContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.Data;
@@ -44,8 +45,8 @@ public static class DependenciesConfig
         builder.Services.AddSwaggerGenServices();
 
         builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
-        builder.Services.AddScoped<IMovieManagerRepository, MovieManagerRepository>();
-        builder.Services.AddScoped<IMovieManagerUsersRepository, MovieManagerUsersRepository>();
+        builder.Services.AddScoped<IMoviesDbContext, MoviesDbContext>();
+        builder.Services.AddScoped<IUsersDbContext, UsersDbContext>();
 
         builder.Services.AddDbContext<MovieManagerDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

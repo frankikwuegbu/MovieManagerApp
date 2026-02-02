@@ -1,17 +1,16 @@
-﻿using Application.Features.Movies.UpdateMovie;
+﻿using Application.Interface;
+using Domain;
 using MediatR;
-using MovieManager.Models;
-using MovieManager.Models.Abstractions;
 
-namespace MovieManager.Controllers.Commands.UpdateMovie;
+namespace Application.Features.Movies.UpdateMovie;
 
-public class UpdateMovieCommandHandler(IMovieManagerRepository repository) : IRequestHandler<UpdateMovieCommand, ApiResponse>
+public class UpdateMovieCommandHandler(IMoviesDbContext context) : IRequestHandler<UpdateMovieCommand, ApiResponse>
 {
-    private readonly IMovieManagerRepository _repository = repository;
+    private readonly IMoviesDbContext _context = context;
 
     public async Task<ApiResponse> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
     {
-        var updatedMovie = await _repository.UpdateMovieAsync(request, cancellationToken);
+        var updatedMovie = await _context.UpdateMovieAsync(request, cancellationToken);
 
         return updatedMovie;
     }

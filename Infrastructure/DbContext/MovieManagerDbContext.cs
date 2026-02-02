@@ -5,12 +5,8 @@ using MovieManager.Models.Entities;
 
 namespace MovieManager.Data;
 
-public class MovieManagerDbContext : IdentityDbContext<User>
+public class MovieManagerDbContext(DbContextOptions options) : IdentityDbContext<User>(options)
 {
-    public MovieManagerDbContext(DbContextOptions options) : base(options)
-    {
-    }
-
     public DbSet<Movie> Movies => Set<Movie>();
     public  DbSet<User> Users => Set<User>();
 }

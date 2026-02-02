@@ -1,5 +1,5 @@
-﻿using MediatR;
-using MovieManager.Models;
+﻿using Domain;
+using MediatR;
 
 namespace Application.Features.Movies.UpdateMovie;
 

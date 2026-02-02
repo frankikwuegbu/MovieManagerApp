@@ -1,22 +1,22 @@
-﻿using Application.Features.Movies.UpdateMovie;
+﻿using Application.Features.Movies.AddMovie;
+using Application.Features.Movies.DeleteMovie;
+using Application.Features.Movies.GetAllMovies;
+using Application.Features.Movies.GetMovieById;
+using Application.Features.Movies.UpdateMovie;
+using Application.Interface;
 using AutoMapper;
+using Domain;
 using Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MovieManager.Controllers.Commands.AddMovie;
-using MovieManager.Controllers.Commands.DeleteMovie;
-using MovieManager.Controllers.Queries.GetAllMovies;
-using MovieManager.Controllers.Queries.GetMovieById;
 using MovieManager.Data;
-using MovieManager.Models;
-using MovieManager.Models.Abstractions;
 using MovieManager.Models.Entities;
 
-namespace Infrastructure.Repositories;
+namespace Infrastructure.DbContext;
 
-public class MovieManagerRepository(IMapper mapper,
-    ILogger<MovieManagerRepository> logger,
-    MovieManagerDbContext dbContext) : BaseMovieManagerRepository(mapper, logger), IMovieManagerRepository
+public class MoviesDbContext(IMapper mapper,
+    ILogger<MoviesDbContext> logger,
+    MovieManagerDbContext dbContext) : BaseMovieManagerRepository(mapper, logger), IMoviesDbContext
 {
     private readonly MovieManagerDbContext _dbContext = dbContext;
 
@@ -27,7 +27,7 @@ public class MovieManagerRepository(IMapper mapper,
 
         var movies = await _dbContext.Movies.ToListAsync(cancellationToken);
 
-        return new ApiResponse(true, "success!", movies);
+        return ApiResponse.Success("success!", movies);
     }
 
     //get movie by id
@@ -39,10 +39,10 @@ public class MovieManagerRepository(IMapper mapper,
 
         if (movie is null)
         {
-            return new ApiResponse(false, "movie not found!");
+            return ApiResponse.Failure("movie not found!");
         }
 
-        return new ApiResponse(true, "movie found!", movie);
+        return ApiResponse.Success("movie found!", movie);
     }
 
     //add movie
@@ -55,7 +55,7 @@ public class MovieManagerRepository(IMapper mapper,
         _dbContext.Movies.Add(movie);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return new ApiResponse(true, "movie added!", movie.Id);
+        return ApiResponse.Success("movie added!", movie.Title);
     }
 
     //delete movie
@@ -67,13 +67,13 @@ public class MovieManagerRepository(IMapper mapper,
 
         if (movieInDb is null)
         {
-            return new ApiResponse(false, "movie not found!");
+            return ApiResponse.Failure("movie not found!");
         }
 
         _dbContext.Movies.Remove(movieInDb);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return new ApiResponse(true, "deleted!");
+        return ApiResponse.Success("deleted!");
     }
 
     //update movie
@@ -84,12 +84,12 @@ public class MovieManagerRepository(IMapper mapper,
         var movie = _dbContext.Movies.Find(request.Id);
 
         if (movie is null)
-            return new ApiResponse(false, "movie not found!");
+            return ApiResponse.Failure("movie not found!");
 
         mapper.Map(request, movie);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return new ApiResponse(true, "update successful!");
+        return ApiResponse.Success("update successful!");
     }
 }

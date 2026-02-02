@@ -1,13 +1,14 @@
-﻿using Application.Features.Movies.UpdateMovie;
-using MovieManager.Controllers.Commands.AddMovie;
-using MovieManager.Controllers.Commands.DeleteMovie;
-using MovieManager.Controllers.Queries.GetAllMovies;
-using MovieManager.Controllers.Queries.GetMovieById;
+﻿using Application.Features.Movies.AddMovie;
+using Application.Features.Movies.DeleteMovie;
+using Application.Features.Movies.GetAllMovies;
+using Application.Features.Movies.GetMovieById;
+using Application.Features.Movies.UpdateMovie;
+using Domain;
 using MovieManager.Models.Entities;
 
-namespace MovieManager.Models.Abstractions;
+namespace Application.Interface;
 
-public interface IMovieManagerRepository
+public interface IMoviesDbContext
 {
     public Task<ApiResponse> AddMovieAsync(AddMovieCommand request, CancellationToken cancellationToken);
     public Task<ApiResponse> DeleteMovieAsync(DeleteMovieCommand request, CancellationToken cancellationToken);

@@ -1,20 +1,20 @@
-﻿using FluentValidation;
+﻿using Application.Interface;
+using Domain;
+using FluentValidation;
 using MediatR;
-using MovieManager.Models;
-using MovieManager.Models.Abstractions;
 
 namespace Application.Features.Users.RegisterUser;
 
-public class RegisterUserCommandHandler(IMovieManagerUsersRepository repository, IValidator<RegisterUserCommand> validator) : IRequestHandler<RegisterUserCommand, ApiResponse>
+public class RegisterUserCommandHandler(IUsersDbContext context, IValidator<RegisterUserCommand> validator) : IRequestHandler<RegisterUserCommand, ApiResponse>
 {
-    private readonly IMovieManagerUsersRepository _repository = repository;
+    private readonly IUsersDbContext _context = context;
     private readonly IValidator<RegisterUserCommand> _validator = validator;
 
     public async Task<ApiResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         _validator.ValidateAndThrow(request);
 
-        var registerUser = await _repository.RegisterUserAsync(request);
+        var registerUser = await _context.RegisterUserAsync(request);
         return registerUser;
     }
 }

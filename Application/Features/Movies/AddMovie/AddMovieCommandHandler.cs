@@ -1,16 +1,16 @@
-﻿using MediatR;
-using MovieManager.Models;
-using MovieManager.Models.Abstractions;
+﻿using Application.Interface;
+using Domain;
+using MediatR;
 
-namespace MovieManager.Controllers.Commands.AddMovie;
+namespace Application.Features.Movies.AddMovie;
 
-public class AddMovieCommandHandler(IMovieManagerRepository repository) : IRequestHandler<AddMovieCommand, ApiResponse>
+public class AddMovieCommandHandler(IMoviesDbContext context) : IRequestHandler<AddMovieCommand, ApiResponse>
 {
-    private readonly IMovieManagerRepository _repository = repository;
+    private readonly IMoviesDbContext _context = context;
 
     public async Task<ApiResponse> Handle(AddMovieCommand request, CancellationToken cancellationToken)
     {
-        var addedMovie = await _repository.AddMovieAsync(request, cancellationToken);
+        var addedMovie = await _context.AddMovieAsync(request, cancellationToken);
 
         return addedMovie;
     }

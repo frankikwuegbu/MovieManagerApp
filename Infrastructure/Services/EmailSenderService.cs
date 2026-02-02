@@ -29,7 +29,8 @@ namespace MovieManager.Services
                                 to: email,
                                 subject,
                                 message
-                                ));
+                )
+            );
         }
     }
 }

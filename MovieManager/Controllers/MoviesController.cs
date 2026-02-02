@@ -1,11 +1,11 @@
-﻿using Application.Features.Movies.UpdateMovie;
+﻿using Application.Features.Movies.AddMovie;
+using Application.Features.Movies.GetAllMovies;
+using Application.Features.Movies.UpdateMovie;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieManager.Controllers.Commands.AddMovie;
-using MovieManager.Controllers.Commands.DeleteMovie;
-using MovieManager.Controllers.Queries.GetAllMovies;
-using MovieManager.Controllers.Queries.GetMovieById;
+using Application.Features.Movies.DeleteMovie;
+using Application.Features.Movies.GetMovieById;
 using MovieManager.Models.Dtos;
 using MovieManager.Models.Entities;
 

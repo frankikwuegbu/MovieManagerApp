@@ -1,14 +1,13 @@
-﻿namespace MovieManager.Models;
+﻿namespace Domain;
 
-public class ApiResponse
+public class ApiResponse(bool status, string message, object? entity = null)
 {
-    public ApiResponse(bool status, string message, object? entity = null)
-    {
-        Status = status;
-        Message = message;
-        Entity = entity;
-    }
-    public bool Status { get; set; }
-    public string? Message { get; set; }
-    public object? Entity { get; set; }
+    public bool Status { get; set; } = status;
+    public string? Message { get; set; } = message;
+    public object? Entity { get; set; } = entity;
+
+    public static ApiResponse Success(string message, object? entity = null) =>
+        new(true, message, entity);
+
+    public static ApiResponse Failure(string message) => new(false, message);
 }

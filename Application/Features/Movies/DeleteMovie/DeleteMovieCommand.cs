@@ -1,6 +1,6 @@
-﻿using MediatR;
-using MovieManager.Models;
+﻿using Domain;
+using MediatR;
 
-namespace MovieManager.Controllers.Commands.DeleteMovie;
+namespace Application.Features.Movies.DeleteMovie;
 
 public record DeleteMovieCommand(Guid Id) : IRequest<ApiResponse>;

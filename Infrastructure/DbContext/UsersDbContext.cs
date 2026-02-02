@@ -1,21 +1,22 @@
 ﻿using Application.Features.Users.LoginUser;
 using Application.Features.Users.RegisterUser;
+using Application.Interface;
 using AutoMapper;
+using Domain;
 using Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using MovieManager.Models;
 using MovieManager.Models.Abstractions;
 using MovieManager.Models.Entities;
 using MovieManager.Services;
 
-namespace Infrastructure.Repositories;
+namespace Infrastructure.DbContext;
 
-public class MovieManagerUsersRepository(IMapper mapper, 
-    ILogger<MovieManagerUsersRepository> logger,
+public class UsersDbContext(IMapper mapper, 
+    ILogger<UsersDbContext> logger,
     UserManager<User> userManager,
     JwtAuthTokenService authToken,
-    IEmailSenderService emailSender) : BaseMovieManagerRepository(mapper, logger), IMovieManagerUsersRepository
+    IEmailSenderService emailSender) : BaseMovieManagerRepository(mapper, logger), IUsersDbContext
 {
     private readonly UserManager<User> _userManager = userManager;
     private readonly JwtAuthTokenService _authToken = authToken;
@@ -28,11 +29,11 @@ public class MovieManagerUsersRepository(IMapper mapper,
         if (user == null ||
             !await _userManager.CheckPasswordAsync(user, request.Password))
 
-            return new ApiResponse(false, "invalid email address or password");
+            return ApiResponse.Failure("invalid email address or password");
 
         var token = await _authToken.JwtTokenGenerator(user);
 
-        return new ApiResponse(true, $"authentication token: {token}");
+        return ApiResponse.Success("login successful", token);
     }
 
     public async Task<ApiResponse> RegisterUserAsync(RegisterUserCommand request)
@@ -42,7 +43,7 @@ public class MovieManagerUsersRepository(IMapper mapper,
         var result = await _userManager.CreateAsync(user, request.Password);
 
         if (!result.Succeeded)
-            return new ApiResponse(false, "user registration failed!");
+            return ApiResponse.Failure("user registration failed!");
 
         await _userManager.AddToRoleAsync(user, request.Roles.ToString());
 
@@ -52,6 +53,6 @@ public class MovieManagerUsersRepository(IMapper mapper,
 
         await _emailSender.SendEmailAsync(request.UserName, subject, message);
 
-        return new ApiResponse(true, "user registration successful!");
+        return ApiResponse.Success("user registration successful!");
     }
 }

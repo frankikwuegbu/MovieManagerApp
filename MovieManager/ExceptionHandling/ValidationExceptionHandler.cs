@@ -29,7 +29,8 @@ internal sealed class ValidationExceptionHandler(IProblemDetailsService problemD
             Exception = validationException,
             ProblemDetails = new ProblemDetails
             {
-                Detail = "one or more validation errors occured",
+                Title = "one or more validation errors occured",
+                Detail = exception.Message,
                 Status = StatusCodes.Status400BadRequest
             }
         };

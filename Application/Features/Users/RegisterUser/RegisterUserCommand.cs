@@ -1,5 +1,5 @@
-﻿using MediatR;
-using MovieManager.Models;
+﻿using Domain;
+using MediatR;
 using MovieManager.Models.Entities;
 
 namespace Application.Features.Users.RegisterUser;

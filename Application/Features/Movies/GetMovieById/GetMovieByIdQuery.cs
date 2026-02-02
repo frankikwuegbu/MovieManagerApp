@@ -1,7 +1,7 @@
-﻿using MediatR;
-using MovieManager.Models;
+﻿using Domain;
+using MediatR;
 using MovieManager.Models.Entities;
 
-namespace MovieManager.Controllers.Queries.GetMovieById;
+namespace Application.Features.Movies.GetMovieById;
 
 public record GetMovieByIdQuery(Guid Id) : IRequest<ApiResponse?>;

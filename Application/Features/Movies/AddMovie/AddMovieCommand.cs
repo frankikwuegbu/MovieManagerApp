@@ -1,7 +1,7 @@
-﻿using MediatR;
-using MovieManager.Models;
+﻿using Domain;
+using MediatR;
 
-namespace MovieManager.Controllers.Commands.AddMovie;
+namespace Application.Features.Movies.AddMovie;
 
 public record AddMovieCommand(
     string Title,
