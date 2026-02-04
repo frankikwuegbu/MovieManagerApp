@@ -20,6 +20,8 @@ public class UserRegisteredEventHandler(IEmailSenderService emailSender, ILogger
                 notification.UserName,
                 "Welcome to Movie Manager!",
                 $"Hi {notification.UserName}, thanks for joining us!");
+
+            _logger.LogInformation($"Registration email sent to: {notification.UserName}");
         }
         catch (Exception ex)
         {
