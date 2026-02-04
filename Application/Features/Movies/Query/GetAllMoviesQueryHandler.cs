@@ -1,10 +1,10 @@
 ﻿using Application.Interface;
 using Domain;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
-namespace Application.Features.Movies.GetAllMovies;
+namespace Application.Features.Movies.Query;
 
+public record GetAllMoviesQuery() : IRequest<ApiResponse>;
 public class GetAllMoviesQueryHandler(IMoviesDbContext context) : IRequestHandler<GetAllMoviesQuery, ApiResponse>
 {
     private readonly IMoviesDbContext _context = context;

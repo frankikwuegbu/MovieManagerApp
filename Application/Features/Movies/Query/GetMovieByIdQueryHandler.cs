@@ -2,8 +2,9 @@
 using Domain;
 using MediatR;
 
-namespace Application.Features.Movies.GetMovieById;
+namespace Application.Features.Movies.Query;
 
+public record GetMovieByIdQuery(Guid Id) : IRequest<ApiResponse?>;
 public class GetMovieByIdQueryHandler(IMoviesDbContext context) : IRequestHandler<GetMovieByIdQuery, ApiResponse?>
 {
     private readonly IMoviesDbContext _context = context;

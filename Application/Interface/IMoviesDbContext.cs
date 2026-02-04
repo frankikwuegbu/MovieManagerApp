@@ -1,8 +1,5 @@
-﻿using Application.Features.Movies.AddMovie;
-using Application.Features.Movies.DeleteMovie;
-using Application.Features.Movies.GetAllMovies;
-using Application.Features.Movies.GetMovieById;
-using Application.Features.Movies.UpdateMovie;
+﻿using Application.Features.Movies.Command;
+using Application.Features.Movies.Query;
 using Domain;
 using MovieManager.Models.Entities;
 

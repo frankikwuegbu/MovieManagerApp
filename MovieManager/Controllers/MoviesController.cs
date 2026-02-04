@@ -1,6 +1,4 @@
-﻿using Application.Features.Movies.AddMovie;
-using Application.Features.Movies.GetAllMovies;
-using Application.Features.Movies.UpdateMovie;
+﻿using Application.Features.Movies.UpdateMovie;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +6,8 @@ using Application.Features.Movies.DeleteMovie;
 using Application.Features.Movies.GetMovieById;
 using MovieManager.Models.Dtos;
 using Domain.Entities;
+using Application.Features.Movies.Command;
+using Application.Features.Movies.Query;
 
 namespace MovieManager.Controllers
 {

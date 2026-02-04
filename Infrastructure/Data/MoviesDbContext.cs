@@ -1,8 +1,5 @@
-﻿using Application.Features.Movies.AddMovie;
-using Application.Features.Movies.DeleteMovie;
-using Application.Features.Movies.GetAllMovies;
-using Application.Features.Movies.GetMovieById;
-using Application.Features.Movies.UpdateMovie;
+﻿using Application.Features.Movies.Command;
+using Application.Features.Movies.Query;
 using Application.Interface;
 using AutoMapper;
 using Domain;
@@ -19,7 +16,6 @@ public class MoviesDbContext(IMapper mapper,
 {
     private readonly MovieManagerDbContext _dbContext = dbContext;
 
-    //get all movies
     public async Task<ApiResponse> GetAllMoviesAsync(GetAllMoviesQuery request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Fetching all movies from database.");
@@ -29,7 +25,6 @@ public class MoviesDbContext(IMapper mapper,
         return ApiResponse.Success("success!", movies);
     }
 
-    //get movie by id
     public async Task<ApiResponse> GetMovieByIdAsync(GetMovieByIdQuery request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Fetching movie with ID from database");
@@ -44,7 +39,6 @@ public class MoviesDbContext(IMapper mapper,
         return ApiResponse.Success("movie found!", movie);
     }
 
-    //add movie
     public async Task<ApiResponse> AddMovieAsync(AddMovieCommand request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Adding a new movie to the database.");
@@ -57,7 +51,6 @@ public class MoviesDbContext(IMapper mapper,
         return ApiResponse.Success("movie added!", movie.Title);
     }
 
-    //delete movie
     public async Task<ApiResponse> DeleteMovieAsync(DeleteMovieCommand request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Deleting movie with ID from database.");
@@ -75,7 +68,6 @@ public class MoviesDbContext(IMapper mapper,
         return ApiResponse.Success("deleted!");
     }
 
-    //update movie
     public async Task<ApiResponse> UpdateMovieAsync(UpdateMovieCommand request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Updating movie in database.");

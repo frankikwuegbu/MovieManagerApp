@@ -1,5 +1,4 @@
-﻿using Application.Features.Users.LoginUser;
-using Application.Features.Users.RegisterUser;
+﻿using Application.Features.Users.Command;
 using Application.Interface;
 using AutoMapper;
 using Domain;

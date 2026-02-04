@@ -1,6 +1,5 @@
-﻿using Application.Features.Movies.AddMovie;
-using Application.Features.Movies.UpdateMovie;
-using Application.Features.Users.RegisterUser;
+﻿using Application.Features.Movies.Command;
+using Application.Features.Users.Command;
 using AutoMapper;
 using Domain.Entities;
 using MovieManager.Models.Entities;

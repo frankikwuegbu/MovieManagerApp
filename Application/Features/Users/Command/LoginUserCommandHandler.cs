@@ -3,7 +3,11 @@ using Domain;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Features.Users.LoginUser;
+namespace Application.Features.Users.Command;
+public record LoginUserCommand(
+    string UserName,
+    string Password
+) : IRequest<ApiResponse>;
 
 public class LoginUserCommandHandler(IUsersDbContext context, IValidator<LoginUserCommand> validator) : IRequestHandler<LoginUserCommand, ApiResponse>
 {

@@ -4,7 +4,7 @@ using MovieManager.Models;
 using System.Net;
 using System.Net.Mail;
 
-namespace MovieManager.Services
+namespace Infrastructure.Services
 {
     public class EmailSenderService(IConfiguration config) : IEmailSenderService
     {
@@ -15,9 +15,10 @@ namespace MovieManager.Services
 
             var client = new SmtpClient
             {
+                UseDefaultCredentials = false,
                 Host = smtpSettings["Host"]!,
                 Port = int.Parse(smtpSettings["Port"]!),
-                EnableSsl = true,
+                EnableSsl = bool.Parse(smtpSettings["EnableSsl"]!),
                 Credentials = new NetworkCredential(
                 smtpSettings["Username"],
                 smtpSettings["Password"]

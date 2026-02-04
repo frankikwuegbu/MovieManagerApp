@@ -1,9 +1,16 @@
 ﻿using Application.Interface;
 using Domain;
+using Domain.Entities;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Features.Users.RegisterUser;
+namespace Application.Features.Users.Command;
+public record RegisterUserCommand(
+    string FullName,
+    string UserName,
+    string Password,
+    UserRoles Roles
+) : IRequest<ApiResponse>;
 
 public class RegisterUserCommandHandler(IUsersDbContext context, IValidator<RegisterUserCommand> validator) : IRequestHandler<RegisterUserCommand, ApiResponse>
 {

@@ -2,8 +2,13 @@
 using Domain;
 using MediatR;
 
-namespace Application.Features.Movies.AddMovie;
-
+namespace Application.Features.Movies.Command;
+public record AddMovieCommand(
+    string Title,
+    string Genre,
+    int ReleaseYear,
+    bool IsShowing
+) : IRequest<ApiResponse>;
 public class AddMovieCommandHandler(IMoviesDbContext context) : IRequestHandler<AddMovieCommand, ApiResponse>
 {
     private readonly IMoviesDbContext _context = context;

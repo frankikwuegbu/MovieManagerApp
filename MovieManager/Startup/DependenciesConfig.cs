@@ -1,4 +1,4 @@
-﻿using Application.Features.Users.RegisterUser;
+﻿using Application.Features.Users.Command;
 using Application.Interface;
 using Application.Profiles;
 using Application.Validators;
@@ -6,6 +6,7 @@ using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Data;
 using Infrastructure.Persistence.Interceptors;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.ExceptionHandling;

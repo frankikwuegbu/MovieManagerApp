@@ -2,7 +2,9 @@
 using Domain;
 using MediatR;
 
-namespace Application.Features.Movies.DeleteMovie;
+namespace Application.Features.Movies.Command;
+
+public record DeleteMovieCommand(Guid Id) : IRequest<ApiResponse>;
 
 public class DeleteMovieCommandHandler(IMoviesDbContext context) : IRequestHandler<DeleteMovieCommand, ApiResponse>
 {

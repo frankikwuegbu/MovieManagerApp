@@ -19,7 +19,7 @@ public class UserRegisteredEventHandler(IEmailSenderService emailSender, ILogger
             await _emailSender.SendEmailAsync(
                 notification.UserName,
                 "Welcome to Movie Manager!",
-                $"Hi {notification.UserName}, thanks for joining us!");
+                $"Hi {notification.FullName}, thanks for joining us!");
 
             _logger.LogInformation($"Registration email sent to: {notification.UserName}");
         }
