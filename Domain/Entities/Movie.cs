@@ -1,6 +1,9 @@
-﻿namespace MovieManager.Models.Entities;
+﻿using Domain.Common;
+using Domain.Interfaces;
 
-public class Movie
+namespace MovieManager.Models.Entities;
+
+public class Movie : BaseEntity
 {
     public Guid Id { get; set; }
     public string? Title { get; set; }

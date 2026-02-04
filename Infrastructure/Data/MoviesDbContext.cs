@@ -9,10 +9,9 @@ using Domain;
 using Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MovieManager.Data;
 using MovieManager.Models.Entities;
 
-namespace Infrastructure.DbContext;
+namespace Infrastructure.Data;
 
 public class MoviesDbContext(IMapper mapper,
     ILogger<MoviesDbContext> logger,

@@ -1,4 +1,4 @@
-﻿using MovieManager.Models.Entities;
+﻿using Domain.Entities;
 
 namespace MovieManager.Models.Dtos;
 

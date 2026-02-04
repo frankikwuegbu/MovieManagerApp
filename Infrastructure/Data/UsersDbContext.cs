@@ -3,24 +3,26 @@ using Application.Features.Users.RegisterUser;
 using Application.Interface;
 using AutoMapper;
 using Domain;
+using Domain.Entities;
+using Domain.Events;
 using Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using MovieManager.Models.Abstractions;
-using MovieManager.Models.Entities;
 using MovieManager.Services;
 
-namespace Infrastructure.DbContext;
+namespace Infrastructure.Data;
 
 public class UsersDbContext(IMapper mapper, 
     ILogger<UsersDbContext> logger,
     UserManager<User> userManager,
     JwtAuthTokenService authToken,
-    IEmailSenderService emailSender) : BaseMovieManagerRepository(mapper, logger), IUsersDbContext
+    IEmailSenderService emailSender,
+    MovieManagerDbContext dbContext) : BaseMovieManagerRepository(mapper, logger), IUsersDbContext
 {
     private readonly UserManager<User> _userManager = userManager;
     private readonly JwtAuthTokenService _authToken = authToken;
     private readonly IEmailSenderService _emailSender = emailSender;
+    private readonly MovieManagerDbContext _dbContext = dbContext;
 
     public async Task<ApiResponse> LoginUserAsync(LoginUserCommand request)
     {
@@ -36,7 +38,7 @@ public class UsersDbContext(IMapper mapper,
         return ApiResponse.Success("login successful", token);
     }
 
-    public async Task<ApiResponse> RegisterUserAsync(RegisterUserCommand request)
+    public async Task<ApiResponse> RegisterUserAsync(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var user = mapper.Map<User>(request);
 
@@ -47,11 +49,9 @@ public class UsersDbContext(IMapper mapper,
 
         await _userManager.AddToRoleAsync(user, request.Roles.ToString());
 
-        var subject = "REGISTRATION COMPLETE";
-        var message = $"{request.FullName} your registration is complete.\n" +
-            $"You can now get tickets to see any movie of your choice";
+        user.AddDomainEvent(new UserRegisteredEvent(user.FullName, user.UserName, user.Role));
 
-        await _emailSender.SendEmailAsync(request.UserName, subject, message);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return ApiResponse.Success("user registration successful!");
     }

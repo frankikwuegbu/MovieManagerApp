@@ -2,14 +2,13 @@
 using Application.Interface;
 using Application.Profiles;
 using Application.Validators;
+using Domain.Entities;
 using FluentValidation;
-using Infrastructure.DbContext;
+using Infrastructure.Data;
+using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MovieManager.Data;
 using MovieManager.ExceptionHandling;
-using MovieManager.Models.Abstractions;
-using MovieManager.Models.Entities;
 using MovieManager.Services;
 
 namespace MovieManager.Startup;
@@ -48,7 +47,12 @@ public static class DependenciesConfig
         builder.Services.AddScoped<IMoviesDbContext, MoviesDbContext>();
         builder.Services.AddScoped<IUsersDbContext, UsersDbContext>();
 
-        builder.Services.AddDbContext<MovieManagerDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Services.AddScoped<DispatchDomainEventsInterceptor>();
+        builder.Services.AddDbContext<MovieManagerDbContext>((sp, options) =>
+        {
+            var interceptor = sp.GetRequiredService<DispatchDomainEventsInterceptor>();
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                    .AddInterceptors(interceptor);
+        });
     }
 }

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Common;
+using Microsoft.AspNetCore.Identity;
 
-namespace MovieManager.Models.Entities;
+namespace Domain.Entities;
 
 public enum UserRoles
 {
@@ -8,7 +9,7 @@ public enum UserRoles
     USER = 1
 }
 
-public class User : IdentityUser
+public class User : BaseEntity
 {
     public required string FullName { get; set; }
     public UserRoles Role { get; set; } = UserRoles.ADMIN;

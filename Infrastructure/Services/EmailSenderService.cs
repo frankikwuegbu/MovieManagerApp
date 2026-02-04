@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Application.Interface;
+using Microsoft.Extensions.Configuration;
 using MovieManager.Models;
-using MovieManager.Models.Abstractions;
 using System.Net;
 using System.Net.Mail;
 

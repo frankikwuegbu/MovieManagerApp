@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Features.Movies.DeleteMovie;
 using Application.Features.Movies.GetMovieById;
 using MovieManager.Models.Dtos;
-using MovieManager.Models.Entities;
+using Domain.Entities;
 
 namespace MovieManager.Controllers
 {

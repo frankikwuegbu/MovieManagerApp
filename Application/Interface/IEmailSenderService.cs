@@ -1,4 +1,4 @@
-﻿namespace MovieManager.Models.Abstractions;
+﻿namespace Application.Interface;
 
 public interface IEmailSenderService
 {

@@ -14,7 +14,7 @@ public class RegisterUserCommandHandler(IUsersDbContext context, IValidator<Regi
     {
         _validator.ValidateAndThrow(request);
 
-        var registerUser = await _context.RegisterUserAsync(request);
+        var registerUser = await _context.RegisterUserAsync(request, cancellationToken);
         return registerUser;
     }
 }

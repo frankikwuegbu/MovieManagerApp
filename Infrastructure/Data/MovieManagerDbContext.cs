@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.Models.Entities;
 
-namespace MovieManager.Data;
+namespace Infrastructure.Data;
 
 public class MovieManagerDbContext(DbContextOptions options) : IdentityDbContext<User>(options)
 {
