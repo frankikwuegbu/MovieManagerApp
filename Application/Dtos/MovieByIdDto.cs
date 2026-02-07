@@ -1,7 +1,8 @@
-﻿namespace MovieManager.Models.Dtos;
+﻿namespace Application.Dtos;
 
-public class AddMovieDto
+public class MovieByIdDto
 {
+    public Guid Id { get; set; }
     public required string Title { get; set; }
     public required string Genre { get; set; }
     public int ReleaseYear { get; set; }

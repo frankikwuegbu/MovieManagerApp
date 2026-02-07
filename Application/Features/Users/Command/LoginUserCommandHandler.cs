@@ -5,20 +5,23 @@ using MediatR;
 
 namespace Application.Features.Users.Command;
 public record LoginUserCommand(
-    string UserName,
+    string Email,
     string Password
-) : IRequest<ApiResponse>;
+) : IRequest<Result>;
 
-public class LoginUserCommandHandler(IUsersDbContext context, IValidator<LoginUserCommand> validator) : IRequestHandler<LoginUserCommand, ApiResponse>
+public class LoginUserCommandHandler(IApplicationDbContext context,
+    IValidator<LoginUserCommand> validator,
+    IIdentityService identityService) 
+    : IRequestHandler<LoginUserCommand, Result>
 {
-    private readonly IUsersDbContext _context = context;
+    private readonly IApplicationDbContext _context = context;
     private readonly IValidator<LoginUserCommand> _validator = validator;
+    private readonly IIdentityService _identityService = identityService;
 
-    public async Task<ApiResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         _validator.ValidateAndThrow(request);
 
-        var loginUser = await _context.LoginUserAsync(request);
-        return loginUser;
+        return await _identityService.LoginAsync(request);
     }
 }

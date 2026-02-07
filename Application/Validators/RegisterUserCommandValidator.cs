@@ -7,9 +7,15 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
 {
     public RegisterUserCommandValidator()
     {
+        RuleFor(x => x.FullName)
+           .NotEmpty().WithMessage("Fullname field cannt be empty.");
+
         RuleFor(x => x.UserName)
-            .NotEmpty().WithMessage("Email field cannt be empty.")
-            .EmailAddress().WithMessage("Invalid email format.");
+            .NotEmpty().WithMessage("Username field cannt be empty.");
+
+        RuleFor(x => x.Email)
+           .NotEmpty().WithMessage("Email field cannt be empty.")
+           .EmailAddress().WithMessage("Invalid email format.");
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password field cannot be empty.")

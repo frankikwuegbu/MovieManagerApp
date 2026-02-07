@@ -3,7 +3,7 @@ using Domain.Interfaces;
 
 namespace MovieManager.Models.Entities;
 
-public class Movie : BaseEntity
+public class Movie
 {
     public Guid Id { get; set; }
     public string? Title { get; set; }

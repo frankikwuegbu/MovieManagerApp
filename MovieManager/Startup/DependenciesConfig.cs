@@ -23,8 +23,17 @@ public static class DependenciesConfig
         builder.Services.AddControllers();
 
         builder.Services.AddIdentity<User, IdentityRole>()
-            .AddEntityFrameworkStores<MovieManagerDbContext>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        builder.Services.AddScoped<IIdentityService, IdentityService>();
+
+        builder.Services.AddIdentityCore<User>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 
         builder.Services.UseJwtAuthenticationToken(builder.Configuration);
         builder.Services.AddAuthorization();
@@ -32,7 +41,7 @@ public static class DependenciesConfig
         builder.Services.AddScoped<JwtAuthTokenService>();
 
         builder.Services.AddMediatR(configuration =>{
-            configuration.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);});
+            configuration.RegisterServicesFromAssembly(typeof(RegisterUserCommandHandler).Assembly);});
 
         builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
@@ -44,16 +53,17 @@ public static class DependenciesConfig
 
         builder.Services.AddSwaggerGenServices();
 
-        builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
-        builder.Services.AddScoped<IMoviesDbContext, MoviesDbContext>();
-        builder.Services.AddScoped<IUsersDbContext, UsersDbContext>();
+        builder.Services.AddScoped<IApplicationDbContext>(provider =>
+            provider.GetRequiredService<ApplicationDbContext>());
 
-        builder.Services.AddScoped<DispatchDomainEventsInterceptor>();
-        builder.Services.AddDbContext<MovieManagerDbContext>((sp, options) =>
+        builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             var interceptor = sp.GetRequiredService<DispatchDomainEventsInterceptor>();
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                     .AddInterceptors(interceptor);
         });
+        builder.Services.AddScoped<DispatchDomainEventsInterceptor>();
+
+        builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
     }
 }

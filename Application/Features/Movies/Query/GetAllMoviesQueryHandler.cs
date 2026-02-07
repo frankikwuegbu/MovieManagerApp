@@ -1,18 +1,32 @@
-﻿using Application.Interface;
+﻿using Application.Dtos;
+using Application.Interface;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Movies.Query;
 
-public record GetAllMoviesQuery() : IRequest<ApiResponse>;
-public class GetAllMoviesQueryHandler(IMoviesDbContext context) : IRequestHandler<GetAllMoviesQuery, ApiResponse>
+public record GetAllMoviesQuery() : IRequest<Result>;
+public class GetAllMoviesQueryHandler(IApplicationDbContext context) : IRequestHandler<GetAllMoviesQuery, Result>
 {
-    private readonly IMoviesDbContext _context = context;
+    private readonly IApplicationDbContext _context = context;
 
-    public async Task<ApiResponse> Handle(GetAllMoviesQuery request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(GetAllMoviesQuery request, CancellationToken cancellationToken)
     {
-        var allMovies = await _context.GetAllMoviesAsync(request, cancellationToken);
+        var movies = await _context.Movies
+            .AsNoTracking()
+            .Select(m => new MovieDto
+            {
+                Id = m.Id,
+                Title = m.Title
+            })
+            .ToListAsync(cancellationToken);
+        
+        if(movies is null)
+        {
+            return Result.Failure("oops! movies list is empty");
+        }
 
-        return allMovies;
+        return Result.Success("success!", movies);
     }
 }

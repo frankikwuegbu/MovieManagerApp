@@ -8,20 +8,24 @@ namespace Application.Features.Users.Command;
 public record RegisterUserCommand(
     string FullName,
     string UserName,
+    string Email,
     string Password,
     UserRoles Roles
-) : IRequest<ApiResponse>;
+) : IRequest<Result>;
 
-public class RegisterUserCommandHandler(IUsersDbContext context, IValidator<RegisterUserCommand> validator) : IRequestHandler<RegisterUserCommand, ApiResponse>
+public class RegisterUserCommandHandler(IApplicationDbContext context,
+    IValidator<RegisterUserCommand> validator,
+    IIdentityService identityService)
+    : IRequestHandler<RegisterUserCommand, Result>
 {
-    private readonly IUsersDbContext _context = context;
+    private readonly IApplicationDbContext _context = context;
     private readonly IValidator<RegisterUserCommand> _validator = validator;
+    private readonly IIdentityService _identityService = identityService;
 
-    public async Task<ApiResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         _validator.ValidateAndThrow(request);
 
-        var registerUser = await _context.RegisterUserAsync(request, cancellationToken);
-        return registerUser;
+        return await _identityService.CreateUserAsync(request, request.Password);
     }
 }

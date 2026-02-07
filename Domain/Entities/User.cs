@@ -9,7 +9,7 @@ public enum UserRoles
     USER = 1
 }
 
-public class User : BaseEntity
+public class User : IdentityUser
 {
     public required string FullName { get; set; }
     public UserRoles Role { get; set; } = UserRoles.ADMIN;

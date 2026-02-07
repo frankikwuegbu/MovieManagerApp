@@ -1,13 +1,10 @@
-﻿using Application.Features.Movies.UpdateMovie;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Application.Features.Movies.DeleteMovie;
-using Application.Features.Movies.GetMovieById;
-using MovieManager.Models.Dtos;
 using Domain.Entities;
 using Application.Features.Movies.Command;
 using Application.Features.Movies.Query;
+using Domain;
 
 namespace MovieManager.Controllers
 {
@@ -19,52 +16,46 @@ namespace MovieManager.Controllers
 
         //gets a list of all movies
         [HttpGet]
-        public async Task<IActionResult> GetAllMovies(GetAllMoviesQuery getAllMoviesQuery)
+        public async Task<ActionResult<Result>> GetAllMovies(GetAllMoviesQuery request)
         {
-            var allMovies = await _sender.Send(getAllMoviesQuery);
-            return Ok(allMovies);
+            return await _sender.Send(request);
         }
 
         //get a movie by its id
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetMovieById(Guid id)
+        public async Task<ActionResult<Result>> GetMovieById(Guid id)
         {
-            var movie = await _sender.Send(new GetMovieByIdQuery(id));
-            return Ok(movie);
+            return await _sender.Send(new GetMovieByIdQuery(id));
         }
 
         //add movie
         [HttpPost]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
-        public async Task<IActionResult> AddMovie(AddMovieCommand request)
+        public async Task<ActionResult<Result>> AddMovie(AddMovieCommand request)
         {
-            var movie = await _sender.Send(request);
-            return Ok(movie);
+            return await _sender.Send(request);
         }
 
         //update movie
         [HttpPut("{id:guid}")]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
-        public async Task<IActionResult> UpdateMovie(Guid id, UpdateMovieDto updateMovieDto)
+        public async Task<ActionResult<Result>> UpdateMovie(Guid id, UpdateMovieCommand r)
         {
             var request = new UpdateMovieCommand(
                 id,
-                updateMovieDto.Genre,
-                updateMovieDto.IsShowing
+                r.Genre,
+                r.IsShowing
                 );
 
-            var updatedMovie = await _sender.Send(request);
-            return Ok(updatedMovie);
+            return await _sender.Send(request);
         }
 
         //delete movie
         [HttpDelete("{id:guid}")]
         [Authorize(Roles = nameof(UserRoles.ADMIN))]
-        public async Task<IActionResult> DeleteMovie(Guid id)
+        public async Task<ActionResult<Result>> DeleteMovie(Guid id)
         {
-            var command = new DeleteMovieCommand(id);
-            var result = await _sender.Send(command);
-            return Ok(result);
+            return await _sender.Send(new DeleteMovieCommand(id));
         }
     }
 }

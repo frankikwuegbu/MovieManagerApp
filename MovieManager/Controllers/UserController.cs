@@ -1,4 +1,5 @@
 ﻿using Application.Features.Users.Command;
+using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,18 +13,16 @@ namespace MovieManager.Controllers
 
         //register user
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUserCommand request)
+        public async Task<ActionResult<Result>> Register(RegisterUserCommand request)
         {
-            var user = await _sender.Send(request);
-            return Ok(user);
+            return await _sender.Send(request);
         }
 
         //login user
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUserCommand request)
+        public async Task<ActionResult<Result>> Login(LoginUserCommand request)
         {
-            var user = await _sender.Send(request);
-            return Ok(user);
+            return await _sender.Send(request);
         }
     }
 }

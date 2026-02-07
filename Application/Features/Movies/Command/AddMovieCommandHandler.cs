@@ -1,6 +1,10 @@
-﻿using Application.Interface;
+﻿using Application.Dtos;
+using Application.Interface;
+using AutoMapper;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using MovieManager.Models.Entities;
 
 namespace Application.Features.Movies.Command;
 public record AddMovieCommand(
@@ -8,15 +12,29 @@ public record AddMovieCommand(
     string Genre,
     int ReleaseYear,
     bool IsShowing
-) : IRequest<ApiResponse>;
-public class AddMovieCommandHandler(IMoviesDbContext context) : IRequestHandler<AddMovieCommand, ApiResponse>
+) : IRequest<Result>;
+public class AddMovieCommandHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<AddMovieCommand, Result>
 {
-    private readonly IMoviesDbContext _context = context;
+    private readonly IApplicationDbContext _context = context;
+    private readonly IMapper _mapper = mapper;
 
-    public async Task<ApiResponse> Handle(AddMovieCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(AddMovieCommand request, CancellationToken cancellationToken)
     {
-        var addedMovie = await _context.AddMovieAsync(request, cancellationToken);
+        var existingMovie = _context.Movies
+            .AsNoTracking()
+            .FirstOrDefault(m => m.Title == request.Title);
 
-        return addedMovie;
+        if(existingMovie is not null)
+        {
+            return Result.Failure("oops! movie title already exists");
+        }
+
+        var movie = _mapper.Map<Movie>(request);
+        _context.Movies.Add(movie);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        var movieDto = _mapper.Map<MovieDto>(movie);
+
+        return Result.Success("movie successfully added!", movieDto);
     }
 }

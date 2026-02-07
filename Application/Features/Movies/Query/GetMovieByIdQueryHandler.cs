@@ -1,18 +1,30 @@
-﻿using Application.Interface;
+﻿using Application.Dtos;
+using Application.Interface;
+using AutoMapper;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Movies.Query;
 
-public record GetMovieByIdQuery(Guid Id) : IRequest<ApiResponse?>;
-public class GetMovieByIdQueryHandler(IMoviesDbContext context) : IRequestHandler<GetMovieByIdQuery, ApiResponse?>
+public record GetMovieByIdQuery(Guid Id) : IRequest<Result>;
+public class GetMovieByIdQueryHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<GetMovieByIdQuery, Result>
 {
-    private readonly IMoviesDbContext _context = context;
+    private readonly IApplicationDbContext _context = context;
+    private readonly IMapper _mapper = mapper;
 
-    public async Task<ApiResponse?> Handle(GetMovieByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(GetMovieByIdQuery request, CancellationToken cancellationToken)
     {
-        var foundMovie = await _context.GetMovieByIdAsync(request, cancellationToken);
+        var movie = await _context.Movies
+            .FirstOrDefaultAsync(m => m.Id == request.Id, cancellationToken);
 
-        return foundMovie;
+        if(movie is null)
+        {
+            Result.Failure("movie not found");
+        }
+
+        var movieDto = _mapper.Map<MovieByIdDto>(movie);
+
+        return Result.Success("movie found", movieDto);
     }
 }
