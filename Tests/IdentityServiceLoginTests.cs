@@ -24,7 +24,7 @@ public class IdentityServiceLoginTests
             Password: "Password123!"
         );
 
-        var userManagerMock = MockUserManagerFactory.Create<User>(user);
+        var userManagerMock = MockUserManagerFactory.Create<User>();
 
         userManagerMock
             .Setup(um => um.FindByEmailAsync(command.Email))
