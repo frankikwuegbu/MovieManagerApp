@@ -1,20 +1,18 @@
 using Microsoft.AspNetCore.Identity;
 using Moq;
 
-namespace Tests
+namespace Tests.TestingHelpers;
+
+public static class MockUserManagerFactory
 {
-    public static class MockUserManagerFactory
+    public static Mock<UserManager<TUser>> Create<TUser>(TUser? user = default)
+    where TUser : class
     {
-        public static Mock<UserManager<TUser>> Create<TUser>(TUser? user = default)
-        where TUser : class
-        {
-            var store = new Mock<IUserStore<TUser>>();
+        var store = new Mock<IUserStore<TUser>>();
 
-            var mock = new Mock<UserManager<TUser>>(store.Object,
-            null!, null!, null!, null!, null!, null!, null!, null!);
+        var mock = new Mock<UserManager<TUser>>(store.Object,
+        null!, null!, null!, null!, null!, null!, null!, null!);
 
-            // Tests will configure specific setups (e.g., CreateAsync, FindByEmailAsync) as needed.
-            return mock;
-        }
+        return mock;
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Application.Features.Movies.Command;
 using Application.Interface;
-using Application.Dtos;
 using Application.Entities;
 using AutoMapper;
 using Moq;
 using Moq.EntityFrameworkCore;
+using Application.Features.Movies;
 
 namespace Tests;
 
@@ -22,7 +22,25 @@ public class AddMovieCommandHandlerTests
             IsShowing: true
         );
 
-        var movies = new List<Movie>();
+        var movies = new List<Movie>
+        {
+            new Movie
+            {
+                Id = Guid.NewGuid(),
+                Title = "Movie A",
+                Genre = "Drama",
+                ReleaseYear = 2000,
+                IsShowing = false
+            },
+            new Movie
+            {
+                Id = Guid.NewGuid(),
+                Title = "Movie B",
+                Genre = "Comedy",
+                ReleaseYear = 2005,
+                IsShowing = true
+            }
+        };
 
         var mockContext = new Mock<IApplicationDbContext>();
         mockContext.Setup(c => c.Movies).ReturnsDbSet(movies);

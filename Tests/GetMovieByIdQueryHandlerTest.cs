@@ -1,10 +1,10 @@
 ﻿using Application.Features.Movies.Query;
 using Application.Interface;
-using Application.Dtos;
 using Application.Entities;
 using Moq;
 using Moq.EntityFrameworkCore;
 using AutoMapper;
+using Application.Features.Movies;
 
 namespace Tests;
 

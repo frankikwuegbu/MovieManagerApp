@@ -1,5 +1,5 @@
-using Application.Dtos;
 using Application.Entities;
+using Application.Features.Users;
 using Application.Features.Users.Command;
 using Application.Interface;
 using AutoMapper;
@@ -7,6 +7,7 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using Moq.EntityFrameworkCore;
+using Tests.TestingHelpers;
 
 namespace Tests;
 
@@ -26,7 +27,7 @@ public class IdentityServiceCreateUserTests
         );
         var password = "Password123!";
 
-        // No existing users ? email is available
+        // No existing users so, email is available
         var users = new List<User>();
 
         var mockContext = new Mock<IApplicationDbContext>();
@@ -57,7 +58,7 @@ public class IdentityServiceCreateUserTests
                        .ReturnsAsync(IdentityResult.Success);
 
         var emailSenderMock = new Mock<IEmailSenderService>();
-        var tokenServiceMock = new Mock<JwtAuthTokenService>(null!, userManagerMock.Object);
+        var tokenServiceMock = new Mock<IJwtAuthTokenService>();
 
         var service = new IdentityService(
             userManagerMock.Object,

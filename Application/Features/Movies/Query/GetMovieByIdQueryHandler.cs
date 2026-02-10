@@ -1,5 +1,4 @@
-﻿using Application.Dtos;
-using Application.Interface;
+﻿using Application.Interface;
 using AutoMapper;
 using Application;
 using MediatR;

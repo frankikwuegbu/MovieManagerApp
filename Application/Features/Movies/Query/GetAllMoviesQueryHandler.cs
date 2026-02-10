@@ -1,6 +1,4 @@
-﻿using Application.Dtos;
-using Application.Interface;
-using Application;
+﻿using Application.Interface;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

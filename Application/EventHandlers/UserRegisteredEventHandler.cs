@@ -1,7 +1,7 @@
 ﻿using Application.Interface;
-using Application.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Domain.Events;
 
 namespace Application.EventHandlers;
 

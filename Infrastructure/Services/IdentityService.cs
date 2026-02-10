@@ -1,12 +1,12 @@
-﻿using Application.Dtos;
-using Application.Features.Users.Command;
+﻿using Application.Features.Users.Command;
 using Application.Interface;
 using AutoMapper;
 using Application;
 using Application.Entities;
-using Application.Events;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Domain.Events;
+using Application.Features.Users;
 
 namespace Infrastructure.Services;
 

@@ -1,8 +1,9 @@
-﻿using Application.Dtos;
-using Application.Features.Movies.Command;
+﻿using Application.Features.Movies.Command;
 using Application.Features.Users.Command;
 using AutoMapper;
 using Application.Entities;
+using Application.Features.Movies;
+using Application.Features.Users;
 
 namespace Application.Profiles
 {

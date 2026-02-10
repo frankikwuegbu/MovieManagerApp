@@ -3,6 +3,7 @@ using Application.Interface;
 using Application.Entities;
 using Moq;
 using Infrastructure.Services;
+using Tests.TestingHelpers;
 
 namespace Tests;
 
