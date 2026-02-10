@@ -1,6 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Entities;
 using Microsoft.EntityFrameworkCore;
-using MovieManager.Models.Entities;
 using System.Collections.Generic;
 
 namespace Application.Interface;

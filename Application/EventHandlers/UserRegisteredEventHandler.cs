@@ -1,5 +1,5 @@
 ﻿using Application.Interface;
-using Domain.Events;
+using Application.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -12,20 +12,20 @@ public class UserRegisteredEventHandler(IEmailSenderService emailSender, ILogger
 
     public async Task Handle(UserRegisteredEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation($"Handling registration email for: {notification.UserName}");
+        _logger.LogInformation($"Handling registration email for: {notification.User.Email}");
 
         try
         {
             await _emailSender.SendEmailAsync(
-                notification.UserName,
+                notification.User.Email,
                 "Welcome to Movie Manager!",
-                $"Hi {notification.FullName}, thanks for joining us!");
+                $"Hi {notification.User.UserName}, thanks for joining us!");
 
-            _logger.LogInformation($"Registration email sent to: {notification.UserName}");
+            _logger.LogInformation($"Registration email sent to: {notification.User.Email}");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Failed to send registration email to: {notification.UserName}");
+            _logger.LogError(ex, $"Failed to send registration email to: {notification.User.UserName}");
         }
     }
 }

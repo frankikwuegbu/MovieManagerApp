@@ -1,6 +1,6 @@
 ﻿using Application.Interface;
-using Domain;
-using Domain.Entities;
+using Application;
+using Application.Entities;
 using FluentValidation;
 using MediatR;
 

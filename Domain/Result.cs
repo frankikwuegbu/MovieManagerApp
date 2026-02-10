@@ -1,4 +1,4 @@
-﻿namespace Domain;
+﻿namespace Application;
 
 public class Result(bool status, string message, object? entity = null)
 {

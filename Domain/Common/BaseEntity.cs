@@ -1,9 +1,9 @@
-﻿using Domain.Interfaces;
+﻿using Application.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Common;
+namespace Application.Common;
 
-public class BaseEntity : IdentityUser, IHasDomainEvents
+public class BaseEntity : IHasDomainEvents
 {
     private readonly List<object> domainEvents = [];
 

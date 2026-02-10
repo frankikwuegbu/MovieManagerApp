@@ -1,5 +1,5 @@
 ﻿using Application.Interface;
-using Domain;
+using Application;
 using FluentValidation;
 using MediatR;
 

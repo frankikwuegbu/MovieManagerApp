@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Entities;
+using Application.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -6,18 +7,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 
-namespace MovieManager.Services;
+namespace Infrastructure.Services;
 
-public class JwtAuthTokenService
+public class JwtAuthTokenService(IConfiguration config, UserManager<User> userManager) : IJwtAuthTokenService
 {
-    private readonly IConfiguration config;
-    private readonly UserManager<User> userManager;
+    private readonly IConfiguration config = config;
+    private readonly UserManager<User> userManager = userManager;
 
-    public JwtAuthTokenService(IConfiguration config, UserManager<User> userManager)
-    {
-        this.config = config;
-        this.userManager = userManager;
-    }
     public async Task<string> JwtTokenGenerator(User user)
     {
         var roles = await userManager.GetRolesAsync(user);

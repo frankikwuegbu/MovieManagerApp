@@ -1,10 +1,10 @@
 ﻿using Application.Dtos;
 using Application.Interface;
 using AutoMapper;
-using Domain;
+using Application;
+using Application.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MovieManager.Models.Entities;
 
 namespace Application.Features.Movies.Command;
 public record AddMovieCommand(

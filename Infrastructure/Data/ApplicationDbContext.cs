@@ -1,8 +1,7 @@
 ﻿using Application.Interface;
-using Domain.Entities;
+using Application.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MovieManager.Models.Entities;
 
 namespace Infrastructure.Data;
 

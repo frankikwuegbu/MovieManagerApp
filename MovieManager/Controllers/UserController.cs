@@ -1,5 +1,5 @@
 ﻿using Application.Features.Users.Command;
-using Domain;
+using Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

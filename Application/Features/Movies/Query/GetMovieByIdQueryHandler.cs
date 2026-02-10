@@ -1,7 +1,7 @@
 ﻿using Application.Dtos;
 using Application.Interface;
 using AutoMapper;
-using Domain;
+using Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ public class GetMovieByIdQueryHandler(IApplicationDbContext context, IMapper map
 
         if(movie is null)
         {
-            Result.Failure("movie not found");
+            return Result.Failure("movie not found");
         }
 
         var movieDto = _mapper.Map<MovieByIdDto>(movie);

@@ -2,7 +2,7 @@
 using Application.Interface;
 using Application.Profiles;
 using Application.Validators;
-using Domain.Entities;
+using Application.Entities;
 using FluentValidation;
 using Infrastructure.Data;
 using Infrastructure.Persistence.Interceptors;
@@ -10,7 +10,6 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.ExceptionHandling;
-using MovieManager.Services;
 
 namespace MovieManager.Startup;
 
@@ -38,7 +37,7 @@ public static class DependenciesConfig
         builder.Services.UseJwtAuthenticationToken(builder.Configuration);
         builder.Services.AddAuthorization();
 
-        builder.Services.AddScoped<JwtAuthTokenService>();
+        builder.Services.AddScoped<IJwtAuthTokenService, JwtAuthTokenService>();
 
         builder.Services.AddMediatR(configuration =>{
             configuration.RegisterServicesFromAssembly(typeof(RegisterUserCommandHandler).Assembly);});

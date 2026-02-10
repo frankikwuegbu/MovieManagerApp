@@ -1,7 +1,7 @@
 ﻿using Application.Dtos;
 using Application.Interface;
 using AutoMapper;
-using Domain;
+using Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

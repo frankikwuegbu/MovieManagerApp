@@ -1,6 +1,6 @@
 ﻿using Application.Features.Users.Command;
-using Domain;
-using Domain.Entities;
+using Application;
+using Application.Entities;
 
 namespace Application.Interface;
 

@@ -2,24 +2,26 @@
 using Application.Features.Users.Command;
 using Application.Interface;
 using AutoMapper;
-using Domain;
-using Domain.Entities;
+using Application;
+using Application.Entities;
+using Application.Events;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MovieManager.Services;
 
 namespace Infrastructure.Services;
 
 public class IdentityService(UserManager<User> userManager,
     IApplicationDbContext context,
-    JwtAuthTokenService authToken,
-    IMapper mapper) 
+    IJwtAuthTokenService authToken,
+    IMapper mapper,
+    IEmailSenderService emailSender) 
     : IIdentityService
 {
     private readonly UserManager<User> _userManager = userManager;
     private readonly IApplicationDbContext _context = context;
-    private readonly JwtAuthTokenService _authToken = authToken;
+    private readonly IJwtAuthTokenService _authToken = authToken;
     private readonly IMapper _mapper = mapper;
+    private readonly IEmailSenderService _emailSender = emailSender;
 
     public async Task<Result> CreateUserAsync(RegisterUserCommand request, string password)
     {
@@ -34,8 +36,17 @@ public class IdentityService(UserManager<User> userManager,
 
         var user = _mapper.Map<User>(request);
 
-        await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, password);
+
+        if (!result.Succeeded)
+        {
+            return Result.Failure("user creation failed!");
+        }
+
         await _userManager.AddToRoleAsync(user, request.Roles.ToString());
+
+        user.AddDomainEvent(new UserRegisteredEvent(user));
+
         await _context.SaveChangesAsync();
 
         var userDto = _mapper.Map<UserDto>(user);

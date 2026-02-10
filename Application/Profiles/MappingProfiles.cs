@@ -2,8 +2,7 @@
 using Application.Features.Movies.Command;
 using Application.Features.Users.Command;
 using AutoMapper;
-using Domain.Entities;
-using MovieManager.Models.Entities;
+using Application.Entities;
 
 namespace Application.Profiles
 {

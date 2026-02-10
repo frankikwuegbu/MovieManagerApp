@@ -1,13 +1,6 @@
-﻿using Domain.Common;
-using Domain.Entities;
-using MediatR;
-using System.Globalization;
+﻿using Application.Entities;
+using Application.Interfaces;
 
-namespace Domain.Events;
+namespace Application.Events;
 
-public class UserRegisteredEvent(string fullName, string? userName, UserRoles roles) : BaseEntity, INotification
-{
-    public string FullName { get; set; } = fullName;
-    public override string? UserName { get; set; } = userName;
-    public UserRoles Roles { get; set; } = roles;
-}
+public record UserRegisteredEvent(User User) : IDomainEvent;

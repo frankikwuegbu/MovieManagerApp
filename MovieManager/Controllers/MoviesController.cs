@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Entities;
+using Application.Entities;
 using Application.Features.Movies.Command;
 using Application.Features.Movies.Query;
-using Domain;
+using Application;
 
 namespace MovieManager.Controllers
 {
@@ -16,7 +16,7 @@ namespace MovieManager.Controllers
 
         //gets a list of all movies
         [HttpGet]
-        public async Task<ActionResult<Result>> GetAllMovies(GetAllMoviesQuery request)
+        public async Task<ActionResult<Result>> GetAllMovies([FromQuery] GetAllMoviesQuery request)
         {
             return await _sender.Send(request);
         }
