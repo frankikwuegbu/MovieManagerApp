@@ -1,6 +1,4 @@
-﻿using Application.Common;
-using Domain.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Application.Entities;
 
@@ -10,7 +8,7 @@ public enum UserRoles
     USER = 1
 }
 
-public class User : IdentityUser, IHasDomainEvents
+public class User : IdentityUser
 {
     public required string FullName { get; set; }
     public UserRoles Role { get; set; } = UserRoles.ADMIN;

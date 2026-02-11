@@ -43,7 +43,7 @@ public class IdentityServiceCreateUserTests
 
         var userDto = new UserDto
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid().ToString(),
             FullName = command.FullName
         };
 

@@ -1,7 +1,6 @@
 ﻿using Domain.Interfaces;
-using Microsoft.AspNetCore.Identity;
 
-namespace Application.Common;
+namespace Domain.Common;
 
 public class BaseEntity : IHasDomainEvents
 {

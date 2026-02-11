@@ -1,10 +1,9 @@
-using Application.Features.Movies.Query;
 using Application.Interface;
 using Application.Entities;
 using Moq;
 using Moq.EntityFrameworkCore;
-using Xunit;
 using Application.Features.Movies;
+using Application.Movies.Query;
 
 namespace Tests;
 
