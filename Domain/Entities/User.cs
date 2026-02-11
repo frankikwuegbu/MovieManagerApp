@@ -1,5 +1,5 @@
 ﻿using Application.Common;
-using Application.Interfaces;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Entities;
