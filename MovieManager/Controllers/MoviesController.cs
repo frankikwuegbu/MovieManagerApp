@@ -5,8 +5,9 @@ using Application.Entities;
 using Application.Features.Movies.Command;
 using Application.Features.Movies.Query;
 using Application;
+using Application.Movies.Query;
 
-namespace MovieManager.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

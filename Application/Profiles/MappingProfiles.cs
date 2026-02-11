@@ -15,7 +15,9 @@ namespace Application.Profiles
             CreateMap<UpdateMovieCommand, Movie>();
             CreateMap<RegisterUserCommand, User>();
             CreateMap<User, UserDto>();
+            CreateMap<User, UserByIdDto>();
             CreateMap<Movie, MovieByIdDto>();
+            CreateMap<Movie, MovieDto>();
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿using Application.Features.Users.Command;
-using Application;
+﻿using Application;
+using Application.Entities;
+using Application.Features.Users.Command;
+using Application.Users.Query;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MovieManager.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,6 +26,22 @@ namespace MovieManager.Controllers
         public async Task<ActionResult<Result>> Login(LoginUserCommand request)
         {
             return await _sender.Send(request);
+        }
+
+        //get all users
+        [HttpGet]
+        [Authorize(Roles = nameof(UserRoles.ADMIN))]
+        public async Task<ActionResult<Result>> GetAllUsers([FromQuery] GetAllUsersQuery request)
+        {
+            return await _sender.Send(request);
+        }
+
+        //get user by id
+        [HttpGet("{id}")]
+        [Authorize(Roles = nameof(UserRoles.ADMIN))]
+        public async Task<ActionResult<Result>> GetUserById(string id)
+        {
+            return await _sender.Send(new GetUserByIdQuery(id));
         }
     }
 }
