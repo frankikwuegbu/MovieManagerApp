@@ -1,7 +1,7 @@
 using Application.Entities;
 using Application.Features.Users;
-using Application.Features.Users.Command;
 using Application.Interface;
+using Application.Users.Command;
 using AutoMapper;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +25,6 @@ public class IdentityServiceCreateUserTests
             Password: "Password123!",
             Roles: UserRoles.USER
         );
-        var password = "Password123!";
 
         // No existing users so, email is available
         var users = new List<User>();
@@ -52,31 +51,29 @@ public class IdentityServiceCreateUserTests
         mockMapper.Setup(m => m.Map<UserDto>(userEntity)).Returns(userDto);
 
         var userManagerMock = MockUserManagerFactory.Create<User>();
-        userManagerMock.Setup(u => u.CreateAsync(userEntity, password))
+        userManagerMock.Setup(u => u.CreateAsync(userEntity, command.Password))
                        .ReturnsAsync(IdentityResult.Success);
         userManagerMock.Setup(u => u.AddToRoleAsync(userEntity, command.Roles.ToString()))
                        .ReturnsAsync(IdentityResult.Success);
 
-        var emailSenderMock = new Mock<IEmailSenderService>();
         var tokenServiceMock = new Mock<IJwtAuthTokenService>();
 
         var service = new IdentityService(
             userManagerMock.Object,
             mockContext.Object,
             tokenServiceMock.Object,
-            mockMapper.Object,
-            emailSenderMock.Object
+            mockMapper.Object
         );
 
         // Act
-        var result = await service.CreateUserAsync(command, password);
+        var result = await service.CreateUserAsync(command, command.Password);
 
         // Assert
         Assert.True(result.Status);
         Assert.Equal("user created!", result.Message);
         Assert.Equal(userDto, result.Entity);
 
-        userManagerMock.Verify(u => u.CreateAsync(userEntity, password), Times.Once);
+        userManagerMock.Verify(u => u.CreateAsync(userEntity, command.Password), Times.Once);
         userManagerMock.Verify(u => u.AddToRoleAsync(userEntity, command.Roles.ToString()), Times.Once);
         mockContext.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }

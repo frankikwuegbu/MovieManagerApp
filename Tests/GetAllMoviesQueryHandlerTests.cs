@@ -1,9 +1,9 @@
 using Application.Interface;
-using Application.Entities;
 using Moq;
 using Moq.EntityFrameworkCore;
 using Application.Features.Movies;
 using Application.Movies.Query;
+using Domain.Entities;
 
 namespace Tests;
 

@@ -1,36 +1,47 @@
 ﻿using Application.Interface;
-using Application;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services;
+
+public class EmailSenderService(IConfiguration config) : IEmailSenderService
 {
-    public class EmailSenderService(IConfiguration config) : IEmailSenderService
+    private readonly IConfiguration _config = config;
+
+    public async Task SendEmailAsync(string to, string subject, string body)
     {
-        private readonly IConfiguration _config = config;
-        public async Task SendEmailAsync(string to, string subject, string body)
+        var smtpSettings = _config.GetSection("Smtp");
+
+        var message = new MimeMessage();
+        message.From.Add(new MailboxAddress(
+            smtpSettings["Username"],
+            smtpSettings["From"]
+        ));
+
+        message.To.Add(MailboxAddress.Parse(to));
+        message.Subject = subject;
+
+        message.Body = new TextPart("plain")
         {
-            var smtpSettings = _config.GetSection("Smtp");
+            Text = body
+        };
 
-            var message = new MimeMessage();
+        using var client = new SmtpClient();
 
-            message.From.Add(new MailboxAddress
-                (smtpSettings["Username"],
-                smtpSettings["From"]));
+        await client.ConnectAsync(
+            smtpSettings["Host"],
+            int.Parse(smtpSettings["Port"]!),
+            bool.Parse(smtpSettings["EnableSsl"]!)
+        );
 
-            message.To.Add(MailboxAddress.Parse(to));
-            message.Subject = subject;
+        await client.AuthenticateAsync(
+            smtpSettings["Username"],
+            smtpSettings["Password"]
+        );
 
-            var client = new SmtpClient();
-            client.Connect(smtpSettings["Host"],
-                int.Parse(smtpSettings["Port"]!),
-                bool.Parse(smtpSettings["EnableSsl"]!));
+        await client.SendAsync(message);
 
-            client.Authenticate(smtpSettings["Username"],
-                smtpSettings["Password"]);
-
-            client.Send(message);
-        }
+        await client.DisconnectAsync(true);
     }
 }

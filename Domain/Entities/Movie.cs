@@ -1,8 +1,6 @@
-﻿using Domain.Common;
+﻿namespace Domain.Entities;
 
-namespace Application.Entities;
-
-public class Movie : BaseEntity
+public class Movie
 {
     public Guid Id { get; set; }
     public string? Title { get; set; }

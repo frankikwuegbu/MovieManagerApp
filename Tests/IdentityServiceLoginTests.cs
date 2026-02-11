@@ -4,6 +4,7 @@ using Application.Entities;
 using Moq;
 using Infrastructure.Services;
 using Tests.TestingHelpers;
+using AutoMapper;
 
 namespace Tests;
 
@@ -25,16 +26,16 @@ public class IdentityServiceLoginTests
         );
 
         var userManagerMock = MockUserManagerFactory.Create<User>();
-
         userManagerMock
             .Setup(um => um.FindByEmailAsync(command.Email))
             .ReturnsAsync(user);
-
         userManagerMock
             .Setup(um => um.CheckPasswordAsync(user, command.Password))
             .ReturnsAsync(true);
 
         var authTokenMock = new Mock<IJwtAuthTokenService>();
+        var mapperMock = new Mock<IMapper>();
+        var mockContext = new Mock<IApplicationDbContext>();
 
         authTokenMock
             .Setup(a => a.JwtTokenGenerator(user))
@@ -42,9 +43,9 @@ public class IdentityServiceLoginTests
 
         var service = new IdentityService(
             userManagerMock.Object,
-            null!,
+            mockContext.Object,
             authTokenMock.Object,
-            null!, null!
+            mapperMock.Object
         );
 
         // Act

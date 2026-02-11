@@ -1,8 +1,8 @@
 ﻿using Application.Features.Movies.Command;
 using Application.Interface;
-using Application.Entities;
 using Moq;
 using Moq.EntityFrameworkCore;
+using Domain.Entities;
 
 namespace Tests;
 

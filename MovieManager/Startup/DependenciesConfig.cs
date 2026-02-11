@@ -1,15 +1,15 @@
-﻿using Application.Features.Users.Command;
-using Application.Interface;
+﻿using Application.Interface;
 using Application.Profiles;
 using Application.Validators;
 using Application.Entities;
 using FluentValidation;
 using Infrastructure.Data;
-using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.ExceptionHandling;
+using Application.Users.Command;
+using API.ExceptionHandling;
 
 namespace MovieManager.Startup;
 
@@ -57,11 +57,8 @@ public static class DependenciesConfig
 
         builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
-            var interceptor = sp.GetRequiredService<DispatchDomainEventsInterceptor>();
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-                    .AddInterceptors(interceptor);
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
-        builder.Services.AddScoped<DispatchDomainEventsInterceptor>();
 
         builder.Services.AddTransient<IEmailSenderService, EmailSenderService>();
     }

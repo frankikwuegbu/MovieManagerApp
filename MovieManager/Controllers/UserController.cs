@@ -1,6 +1,7 @@
 ﻿using Application;
 using Application.Entities;
 using Application.Features.Users.Command;
+using Application.Users.Command;
 using Application.Users.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

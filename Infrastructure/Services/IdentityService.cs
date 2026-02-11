@@ -5,23 +5,21 @@ using Application;
 using Application.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Domain.Events;
 using Application.Features.Users;
+using Application.Users.Command;
 
 namespace Infrastructure.Services;
 
 public class IdentityService(UserManager<User> userManager,
     IApplicationDbContext context,
     IJwtAuthTokenService authToken,
-    IMapper mapper,
-    IEmailSenderService emailSender) 
+    IMapper mapper) 
     : IIdentityService
 {
     private readonly UserManager<User> _userManager = userManager;
     private readonly IApplicationDbContext _context = context;
     private readonly IJwtAuthTokenService _authToken = authToken;
     private readonly IMapper _mapper = mapper;
-    private readonly IEmailSenderService _emailSender = emailSender;
 
     public async Task<Result> CreateUserAsync(RegisterUserCommand request, string password)
     {
@@ -44,8 +42,6 @@ public class IdentityService(UserManager<User> userManager,
         }
 
         await _userManager.AddToRoleAsync(user, request.Roles.ToString());
-
-        user.AddDomainEvent(new UserRegisteredEvent(user));
 
         await _context.SaveChangesAsync();
 

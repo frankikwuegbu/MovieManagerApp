@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MovieManager.ExceptionHandling;
+namespace API.ExceptionHandling;
 
 internal sealed class ValidationExceptionHandler(IProblemDetailsService problemDetailsService,
     ILogger<ValidationExceptionHandler> logger) : IExceptionHandler
@@ -19,7 +19,7 @@ internal sealed class ValidationExceptionHandler(IProblemDetailsService problemD
             return false;
         }
 
-        logger.LogWarning("a validation exception occured: {ValidationErrors}",
+        logger.LogWarning($"a validation exception occured: {validationException}",
             validationException.Errors);
 
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;

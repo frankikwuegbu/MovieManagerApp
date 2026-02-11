@@ -1,9 +1,10 @@
 ﻿using Application.Features.Movies.Command;
-using Application.Features.Users.Command;
 using AutoMapper;
 using Application.Entities;
 using Application.Features.Movies;
 using Application.Features.Users;
+using Application.Users.Command;
+using Domain.Entities;
 
 namespace Application.Profiles
 {

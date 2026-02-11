@@ -1,9 +1,9 @@
 ﻿using Application.Interface;
 using AutoMapper;
 using Application;
-using Application.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Domain.Entities;
 
 namespace Application.Features.Movies.Command;
 public record AddMovieCommand(
