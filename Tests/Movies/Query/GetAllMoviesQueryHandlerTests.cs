@@ -4,11 +4,21 @@ using Moq.EntityFrameworkCore;
 using Application.Features.Movies;
 using Application.Movies.Query;
 using Domain.Entities;
+using Tests.Helpers;
 
-namespace Tests;
+namespace Tests.Movies.Query;
 
 public class GetAllMoviesQueryHandlerTests
 {
+    private readonly Mock<IApplicationDbContext> _context;
+    private readonly GetAllMoviesQueryHandler _handler;
+
+    public GetAllMoviesQueryHandlerTests()
+    {
+        _context = MockAppDbContextFactory.Create();
+        _handler = new GetAllMoviesQueryHandler(_context.Object);
+    }
+
     [Fact]
     public async Task Handle_ReturnsAllMovies_AsMovieDtoList()
     {
@@ -32,13 +42,10 @@ public class GetAllMoviesQueryHandlerTests
 
         var movies = new List<Movie> { movieAEntity, movieBEntity };
 
-        var mockContext = new Mock<IApplicationDbContext>();
-        mockContext.Setup(c => c.Movies).ReturnsDbSet(movies);
-
-        var handler = new GetAllMoviesQueryHandler(mockContext.Object);
+        _context.Setup(c => c.Movies).ReturnsDbSet(movies);
 
         // Act
-        var result = await handler.Handle(new GetAllMoviesQuery(), CancellationToken.None);
+        var result = await _handler.Handle(new GetAllMoviesQuery(), CancellationToken.None);
 
         // Assert
         Assert.True(result.Status);

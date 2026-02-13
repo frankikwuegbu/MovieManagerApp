@@ -5,11 +5,23 @@ using Moq.EntityFrameworkCore;
 using AutoMapper;
 using Application.Features.Movies;
 using Domain.Entities;
+using Tests.Helpers;
 
-namespace Tests;
+namespace Tests.Movies.Query;
 
 public class GetMovieByIdQueryHandlerTests
 {
+    private readonly Mock<IApplicationDbContext> _context;
+    private readonly Mock<IMapper> _mapper;
+    private readonly GetMovieByIdQueryHandler _handler;
+
+    public GetMovieByIdQueryHandlerTests()
+    {
+        _context = MockAppDbContextFactory.Create();
+        _mapper = new Mock<IMapper>();
+        _handler = new GetMovieByIdQueryHandler(_context.Object, _mapper.Object);
+    }
+
     [Fact]
     public async Task Handle_WhenMovieExists_ReturnsSuccessResultWithMovieDto()
     {
@@ -27,8 +39,7 @@ public class GetMovieByIdQueryHandlerTests
 
         var movies = new List<Movie> { movie };
 
-        var mockContext = new Mock<IApplicationDbContext>();
-        mockContext.Setup(c => c.Movies).ReturnsDbSet(movies);
+        _context.Setup(c => c.Movies).ReturnsDbSet(movies);
 
         var movieDto = new MovieByIdDto
         {
@@ -39,20 +50,13 @@ public class GetMovieByIdQueryHandlerTests
                 IsShowing = true
         };
 
-        var mockMapper = new Mock<IMapper>();
-        mockMapper
-            .Setup(m => m.Map<MovieByIdDto>(movie))
+        _mapper.Setup(m => m.Map<MovieByIdDto>(movie))
             .Returns(movieDto);
-
-        var handler = new GetMovieByIdQueryHandler(
-            mockContext.Object,
-            mockMapper.Object
-        );
 
         var query = new GetMovieByIdQuery(movieId);
 
         // Act
-        var result = await handler.Handle(query, CancellationToken.None);
+        var result = await _handler.Handle(query, CancellationToken.None);
 
         // Assert
         Assert.True(result.Status);

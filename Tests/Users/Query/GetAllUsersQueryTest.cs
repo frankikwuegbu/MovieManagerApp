@@ -4,11 +4,21 @@ using Application.Interface;
 using Application.Users.Query;
 using Moq;
 using Moq.EntityFrameworkCore;
+using Tests.Helpers;
 
-namespace Tests;
+namespace Tests.Users.Query;
 
 public class GetAllUsersQueryHandlerTests
 {
+    private readonly Mock<IApplicationDbContext> _context;
+    private readonly GetAllUsersQueryHandler _handler;
+
+    public GetAllUsersQueryHandlerTests()
+    {
+        _context = MockAppDbContextFactory.Create();
+        _handler = new GetAllUsersQueryHandler(_context.Object);
+    }
+
     [Fact]
     public async Task Handle_WhenUsersExist_ReturnsUserDtoList()
     {
@@ -32,13 +42,11 @@ public class GetAllUsersQueryHandlerTests
 
         var users = new List<User> { userAEntity, userBEntity };
 
-        var mockContext = new Mock<IApplicationDbContext>();
-        mockContext.Setup(c => c.Users).ReturnsDbSet(users);
+        _context.Setup(c => c.Users).ReturnsDbSet(users);
 
-        var handler = new GetAllUsersQueryHandler(mockContext.Object);
 
         // Act
-        var result = await handler.Handle(new GetAllUsersQuery(), CancellationToken.None);
+        var result = await _handler.Handle(new GetAllUsersQuery(), CancellationToken.None);
 
         // Assert
         Assert.True(result.Status);

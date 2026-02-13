@@ -3,11 +3,21 @@ using Application.Interface;
 using Moq;
 using Moq.EntityFrameworkCore;
 using Domain.Entities;
+using Tests.Helpers;
 
-namespace Tests;
+namespace Tests.Movies.Command;
 
 public class DeleteMovieCommandHandlerTests
 {
+    private readonly Mock<IApplicationDbContext> _context;
+    private readonly DeleteMovieCommandHandler _handler;
+
+    public DeleteMovieCommandHandlerTests()
+    {
+        _context = MockAppDbContextFactory.Create();
+        _handler = new DeleteMovieCommandHandler(_context.Object);
+    }
+
     [Fact]
     public async Task Handle_WhenMovieExists_DeletesMovieAndReturnsSuccess()
     {
@@ -22,22 +32,18 @@ public class DeleteMovieCommandHandlerTests
 
         var movies = new List<Movie> { movie };
 
-        var mockContext = new Mock<IApplicationDbContext>();
-        mockContext.Setup(c => c.Movies).ReturnsDbSet(movies);
-        mockContext.Setup(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()))
-                   .ReturnsAsync(1);
+        _context.Setup(c => c.Movies).ReturnsDbSet(movies);
 
-        var handler = new DeleteMovieCommandHandler(mockContext.Object);
         var command = new DeleteMovieCommand(movieId);
 
         // Act
-        var result = await handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
         Assert.True(result.Status);
         Assert.Equal("movie deleted!", result.Message);
 
-        mockContext.Verify(c => c.Movies.Remove(movie), Times.Once);
-        mockContext.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _context.Verify(c => c.Movies.Remove(movie), Times.Once);
+        _context.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }

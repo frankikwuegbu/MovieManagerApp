@@ -1,15 +1,31 @@
-﻿using Application.Features.Movies.Command;
+﻿using Application.Features.Movies;
+using Application.Features.Movies.Command;
 using Application.Interface;
 using AutoMapper;
+using Domain.Entities;
 using Moq;
 using Moq.EntityFrameworkCore;
-using Application.Features.Movies;
-using Domain.Entities;
+using Tests.Helpers;
 
-namespace Tests;
+namespace Tests.Movies.Command;
 
 public class UpdateMovieCommandHandlerTests
 {
+    private readonly Mock<IApplicationDbContext> _context;
+    private readonly Mock<IMapper> _mapper;
+    private readonly UpdateMovieCommandHandler _handler;
+
+    public UpdateMovieCommandHandlerTests()
+    {
+        _context = MockAppDbContextFactory.Create();
+        _mapper = new Mock<IMapper>();
+
+        _handler = new UpdateMovieCommandHandler(
+            _context.Object,
+            _mapper.Object
+        );
+    }
+
     [Fact]
     public async Task Handle_WhenMovieExists_UpdatesMovieAndReturnsSuccess()
     {
@@ -34,10 +50,7 @@ public class UpdateMovieCommandHandlerTests
             IsShowing: true
         );
 
-        var mockContext = new Mock<IApplicationDbContext>();
-        mockContext.Setup(c => c.Movies).ReturnsDbSet(movies);
-        mockContext.Setup(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()))
-                   .ReturnsAsync(1);
+        _context.Setup(c => c.Movies).ReturnsDbSet(movies);
 
         var updatedDto = new MovieDto
         {
@@ -45,28 +58,20 @@ public class UpdateMovieCommandHandlerTests
             Title = movie.Title
         };
 
-        var mockMapper = new Mock<IMapper>();
-        mockMapper
-            .Setup(m => m.Map(command, movie));
+        _mapper.Setup(m => m.Map(command, movie));
 
-        mockMapper
-            .Setup(m => m.Map<MovieDto>(movie))
+        _mapper.Setup(m => m.Map<MovieDto>(movie))
             .Returns(updatedDto);
 
-        var handler = new UpdateMovieCommandHandler(
-            mockContext.Object,
-            mockMapper.Object
-        );
-
         // Act
-        var result = await handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
         Assert.True(result.Status);
         Assert.Equal("update successful!", result.Message);
         Assert.Equal(updatedDto, result.Entity);
 
-        mockMapper.Verify(m => m.Map(command, movie), Times.Once);
-        mockContext.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _mapper.Verify(m => m.Map(command, movie), Times.Once);
+        _context.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }

@@ -1,6 +1,4 @@
 ﻿using Application.Features.Users.Command;
-using Application;
-using Application.Entities;
 using Application.Users.Command;
 
 namespace Application.Interface;

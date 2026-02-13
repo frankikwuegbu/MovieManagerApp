@@ -5,11 +5,23 @@ using Application.Users.Query;
 using AutoMapper;
 using Moq;
 using Moq.EntityFrameworkCore;
+using Tests.Helpers;
 
-namespace Tests;
+namespace Tests.Users.Query;
 
 public class GetUserByIdQueryHandlerTests
 {
+    private readonly Mock<IApplicationDbContext> _context;
+    private readonly Mock<IMapper> _mapper;
+    private readonly GetUserByIdQueryHandler _handler;
+
+    public GetUserByIdQueryHandlerTests()
+    {
+        _context = MockAppDbContextFactory.Create();
+        _mapper = new Mock<IMapper>();
+        _handler = new GetUserByIdQueryHandler(_context.Object, _mapper.Object);
+    }
+
     [Fact]
     public async Task Handle_WhenUserExists_ReturnsUserDto()
     {
@@ -17,17 +29,16 @@ public class GetUserByIdQueryHandlerTests
         var userId = "1";
 
         var users = new List<User>
-    {
-        new User
         {
-            Id = userId,
-            FullName = "John Doe",
-            Email = "john@example.com"
-        }
-    };
+            new User
+            {
+                Id = userId,
+                FullName = "John Doe",
+                Email = "john@example.com"
+            }
+        };
 
-        var mockContext = new Mock<IApplicationDbContext>();
-        mockContext.Setup(c => c.Users).ReturnsDbSet(users);
+        _context.Setup(c => c.Users).ReturnsDbSet(users);
 
         var userDto = new UserByIdDto
         {
@@ -38,17 +49,11 @@ public class GetUserByIdQueryHandlerTests
             Password = "password123"
         };
 
-        var mockMapper = new Mock<IMapper>();
-        mockMapper.Setup(m => m.Map<UserByIdDto>(users[0]))
+        _mapper.Setup(m => m.Map<UserByIdDto>(users[0]))
                   .Returns(userDto);
 
-        var handler = new GetUserByIdQueryHandler(
-            mockContext.Object,
-            mockMapper.Object
-        );
-
         // Act
-        var result = await handler.Handle(
+        var result = await _handler.Handle(
             new GetUserByIdQuery(userId),
             CancellationToken.None
         );

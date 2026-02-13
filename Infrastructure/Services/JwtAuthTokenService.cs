@@ -26,7 +26,7 @@ public class JwtAuthTokenService(IConfiguration config, UserManager<User> userMa
         List<Claim> claim =
         [
             new(JwtRegisteredClaimNames.Sub, user.Id),
-            new(JwtRegisteredClaimNames.Name, user.UserName!),
+            new(JwtRegisteredClaimNames.Name, user.Email!),
             ..roles.Select(r => new Claim(ClaimTypes.Role, r))
         ];
 

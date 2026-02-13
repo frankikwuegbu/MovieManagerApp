@@ -11,15 +11,5 @@ public enum UserRoles
 public class User : IdentityUser
 {
     public required string FullName { get; set; }
-    public UserRoles Role { get; set; } = UserRoles.ADMIN;
-
-    private readonly List<object> domainEvents = [];
-    public IReadOnlyCollection<object> DomainEvents => domainEvents.AsReadOnly();
-
-    public void AddDomainEvent(object domainEvent)
-    {
-        domainEvents.Add(domainEvent);
-    }
-
-    public void ClearDomainEvents() => domainEvents.Clear();
+    public UserRoles Role { get; set; } = UserRoles.USER;
 }

@@ -23,9 +23,9 @@ public class IdentityService(UserManager<User> userManager,
 
     public async Task<Result> CreateUserAsync(RegisterUserCommand request, string password)
     {
-        var existingUsers = _context.Users
+        var existingUsers = await _context.Users
            .AsNoTracking()
-           .FirstOrDefault(u => u.Email == request.Email);
+           .FirstOrDefaultAsync(u => u.Email == request.Email);
 
         if (existingUsers is not null)
         {
